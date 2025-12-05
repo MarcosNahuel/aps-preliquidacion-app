@@ -50,7 +50,7 @@ export const COLUMNAS_PLANTILLA: ColumnaExcel[] = [
   { nombre: 'Item especializac', campo: 'item_especializacion', tipo: 'number', obligatorio: false, variantes: ['Item Especializacion', 'Ítem Especialización'] },
 
   // Sueldos brutos
-  { nombre: 'Sueldo \nBruto ', campo: 'sueldo_bruto', tipo: 'number', obligatorio: false, variantes: ['Sueldo Bruto', 'S.Bruto'] },
+  { nombre: 'Sueldo Bruto', campo: 'sueldo_bruto', tipo: 'number', obligatorio: false, variantes: ['Sueldo Bruto ', 'Sueldo \nBruto ', 'S.Bruto'] },
   { nombre: 'Diferencias\nParitarias Remunerat.', campo: 'diferencias_paritarias_remun', tipo: 'number', obligatorio: false, variantes: ['Diferencias Paritarias', 'Dif. Paritarias'] },
   { nombre: 'S.Bruto \nTotal', campo: 'sueldo_bruto_total', tipo: 'number', obligatorio: false, variantes: ['S.Bruto Total', 'Sueldo Bruto Total'] },
 
@@ -78,7 +78,7 @@ export const COLUMNAS_PLANTILLA: ColumnaExcel[] = [
   { nombre: 'Total \nDescuentos', campo: 'total_deducciones', tipo: 'number', obligatorio: false, variantes: ['Total Descuentos'] },
 
   // Neto y firmas
-  { nombre: 'Neto ', campo: 'sueldo_neto', tipo: 'number', obligatorio: false, variantes: ['Neto', 'Sueldo Neto'] },
+  { nombre: 'Neto', campo: 'sueldo_neto', tipo: 'number', obligatorio: false, variantes: ['Neto ', 'Sueldo Neto'] },
   { nombre: 'Firmas', campo: 'firmas', tipo: 'string', obligatorio: false },
 ];
 
