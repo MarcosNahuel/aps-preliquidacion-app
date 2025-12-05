@@ -170,11 +170,12 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
 
         {/* Area de carga de archivo */}
         <div
-          className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+          className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${
             file ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-gray-400'
           }`}
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
+          onClick={() => !file && fileInputRef.current?.click()}
         >
           {file ? (
             <div className="flex items-center justify-center space-x-3">
@@ -187,7 +188,8 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
               </div>
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   setFile(null);
                   if (fileInputRef.current) fileInputRef.current.value = '';
                 }}
@@ -213,7 +215,7 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
             type="file"
             accept=".xlsx"
             onChange={handleFileChange}
-            className={file ? 'hidden' : 'absolute inset-0 w-full h-full opacity-0 cursor-pointer'}
+            className="hidden"
           />
         </div>
 
