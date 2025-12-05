@@ -28,7 +28,7 @@ export async function generarPlantillaModelo(): Promise<Buffer> {
   headerRow.alignment = { horizontal: 'center', vertical: 'middle' };
   headerRow.height = 25;
 
-  // Marcar columnas obligatorias con color diferente
+  // Marcar columnas obligatorias con color diferente (solo color, NO cambiar el nombre)
   COLUMNAS_PLANTILLA.forEach((col, index) => {
     const cell = headerRow.getCell(index + 1);
     if (col.obligatorio) {
@@ -37,7 +37,7 @@ export async function generarPlantillaModelo(): Promise<Buffer> {
         pattern: 'solid',
         fgColor: { argb: 'FF991B1B' } // Rojo oscuro para obligatorios
       };
-      cell.value = `${col.nombre} *`;
+      // NO modificar cell.value - mantener el nombre original para que coincida con la validacion
     }
   });
 
