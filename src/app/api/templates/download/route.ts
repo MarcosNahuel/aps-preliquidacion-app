@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { generarPlantillaModelo } from '@/lib/excel/generator';
 
+// Forzar runtime de Node.js para ExcelJS
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const buffer = await generarPlantillaModelo();
