@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import FileUpload from '@/components/FileUpload';
 import PresentacionesTable from '@/components/PresentacionesTable';
-import { Loader2, RefreshCw } from 'lucide-react';
+import { Loader2, RefreshCw, CheckCircle, Clock } from 'lucide-react';
 import type { Usuario, Presentacion } from '@/types/database';
 
 export default function ColegioPage() {
@@ -96,28 +96,119 @@ export default function ColegioPage() {
           />
         </div>
 
-        {/* Listado de presentaciones */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">
-              Mis Presentaciones
-            </h3>
-            <button
-              onClick={fetchPresentaciones}
-              disabled={refreshing}
-              className="btn-secondary text-sm"
-            >
-              <RefreshCw className={`h-4 w-4 mr-1 ${refreshing ? 'animate-spin' : ''}`} />
-              Actualizar
-            </button>
-          </div>
+        {/* Separar presentaciones por estado */}
+        {(() => {
+          const cerradas = presentaciones.filter(p => p.estado === 'CERRADA');
+          const enProceso = presentaciones.filter(p => p.estado !== 'CERRADA');
 
-          <PresentacionesTable
-            presentaciones={presentaciones}
-            rol="COLEGIO"
-            onRefresh={fetchPresentaciones}
-          />
-        </div>
+          const formatMonto = (monto: number) => {
+            return new Intl.NumberFormat('es-AR', {
+              style: 'currency',
+              currency: 'ARS'
+            }).format(monto);
+          };
+
+          // Calcular total bruto de cerradas
+          const totalBrutoCerradas = cerradas.reduce((sum, p) => sum + (p.costo_total_presentado || 0), 0);
+
+          return (
+            <>
+              {/* Presentaciones Cerradas */}
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-600 mr-2" />
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Presentaciones Cerradas ({cerradas.length})
+                    </h3>
+                  </div>
+                  <button
+                    onClick={fetchPresentaciones}
+                    disabled={refreshing}
+                    className="btn-secondary text-sm"
+                  >
+                    <RefreshCw className={`h-4 w-4 mr-1 ${refreshing ? 'animate-spin' : ''}`} />
+                    Actualizar
+                  </button>
+                </div>
+
+                {cerradas.length === 0 ? (
+                  <div className="card text-center py-8 text-gray-500">
+                    No hay presentaciones cerradas
+                  </div>
+                ) : (
+                  <div className="card p-0 overflow-hidden">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-green-50">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Periodo</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tipo</th>
+                          <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Filas</th>
+                          <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Costo Bruto</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha Cierre</th>
+                          <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {cerradas.map((pres) => (
+                          <tr key={pres.id} className="hover:bg-gray-50">
+                            <td className="px-4 py-3 text-sm text-gray-900">
+                              {new Date(parseInt(pres.periodo.substring(0, 4)), parseInt(pres.periodo.substring(4, 6)) - 1)
+                                .toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}
+                            </td>
+                            <td className="px-4 py-3 text-sm text-gray-600">{pres.tipo_liquidacion}</td>
+                            <td className="px-4 py-3 text-sm text-gray-900 text-right">{pres.total_filas}</td>
+                            <td className="px-4 py-3 text-sm text-gray-900 text-right font-medium">
+                              {formatMonto(pres.costo_total_presentado)}
+                            </td>
+                            <td className="px-4 py-3 text-sm text-gray-600">
+                              {new Date(pres.fecha_cierre || pres.fecha_subida).toLocaleDateString('es-AR')}
+                            </td>
+                            <td className="px-4 py-3 text-sm text-center">
+                              <a
+                                href={`/colegio/presentaciones/${pres.id}`}
+                                className="text-primary-600 hover:text-primary-800 font-medium"
+                              >
+                                Ver detalle
+                              </a>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                      <tfoot className="bg-green-100 border-t-2 border-green-300">
+                        <tr>
+                          <td colSpan={3} className="px-4 py-3 text-sm font-bold text-gray-900">
+                            TOTAL PRESENTACIONES CERRADAS
+                          </td>
+                          <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">
+                            {formatMonto(totalBrutoCerradas)}
+                          </td>
+                          <td colSpan={2}></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              {/* Presentaciones en Proceso */}
+              <div>
+                <div className="flex items-center mb-4">
+                  <Clock className="h-5 w-5 text-orange-600 mr-2" />
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Presentaciones en Proceso ({enProceso.length})
+                  </h3>
+                </div>
+
+                <PresentacionesTable
+                  presentaciones={enProceso}
+                  rol="COLEGIO"
+                  onRefresh={fetchPresentaciones}
+                />
+              </div>
+            </>
+          );
+        })()}
       </main>
     </div>
   );

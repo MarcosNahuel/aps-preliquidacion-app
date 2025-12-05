@@ -128,6 +128,12 @@ export default function PresentacionDetailPage() {
 
   const estadoBadge = getEstadoBadge(presentacion.estado);
 
+  // Calcular totales
+  const totalBruto = liquidaciones.reduce((sum, liq) => sum + (liq.sueldo_bruto || 0), 0);
+  const totalNeto = liquidaciones.reduce((sum, liq) => sum + (liq.sueldo_neto || 0), 0);
+  const totalArraigo = liquidaciones.reduce((sum, liq) => sum + (liq.item_arraigo || 0), 0);
+  const totalHoras = liquidaciones.reduce((sum, liq) => sum + (liq.horas || 0), 0);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {usuario && <Header usuario={usuario} />}
@@ -302,6 +308,25 @@ export default function PresentacionDetailPage() {
                     </tr>
                   ))}
                 </tbody>
+                <tfoot className="bg-gray-100 border-t-2 border-gray-300">
+                  <tr>
+                    <td colSpan={4} className="px-4 py-3 text-sm font-bold text-gray-900">
+                      TOTALES
+                    </td>
+                    <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">
+                      {totalHoras}
+                    </td>
+                    <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">
+                      {formatMonto(totalBruto)}
+                    </td>
+                    <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">
+                      {formatMonto(totalNeto)}
+                    </td>
+                    <td className="px-4 py-3 text-sm font-bold text-primary-600 text-right">
+                      {formatMonto(totalArraigo)}
+                    </td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           )}
