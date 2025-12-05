@@ -1,6 +1,9 @@
 // Definicion de columnas esperadas en la plantilla Excel
 // Basado en el Excel modelo real de los colegios (48 columnas)
 
+// Nombre de la hoja esperada en el archivo Excel
+export const NOMBRE_HOJA_ESPERADO = 'Libro Primario';
+
 export interface ColumnaExcel {
   nombre: string;
   campo: string;

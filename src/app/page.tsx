@@ -152,7 +152,28 @@ export default function LoginPage() {
           </form>
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-6 space-y-3">
+          <div className="text-center">
+            <button
+              onClick={() => router.push('/recuperar-password')}
+              className="text-primary-600 hover:text-primary-700 text-sm hover:underline"
+            >
+              ¿Olvidaste tu contrasena?
+            </button>
+          </div>
+
+          <div className="text-center border-t pt-4">
+            <span className="text-sm text-gray-600">¿No tienes cuenta? </span>
+            <button
+              onClick={() => router.push('/registro')}
+              className="text-primary-600 hover:text-primary-700 text-sm font-medium hover:underline"
+            >
+              Registrate aqui
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-4 text-center">
           <div className="flex items-center justify-center text-sm text-gray-500">
             <ShieldCheck className="h-4 w-4 mr-1" />
             Conexion segura
