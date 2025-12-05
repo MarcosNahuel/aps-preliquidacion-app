@@ -140,11 +140,6 @@ export async function generarPlantillaModelo(): Promise<Buffer> {
     row.font = { italic: true, color: { argb: 'FF666666' } };
   });
 
-  // Nota al final
-  const notaRow = hoja.addRow({});
-  const notaRow2 = hoja.addRow({ colegio: '** ELIMINE ESTAS FILAS DE EJEMPLO ANTES DE CARGAR SUS DATOS REALES **' });
-  notaRow2.font = { bold: true, color: { argb: 'FFDC2626' } };
-
   // Agregar notas/instrucciones en hoja separada
   const instrucciones = workbook.addWorksheet('Instrucciones');
   instrucciones.columns = [{ header: 'Instrucciones para completar la planilla', width: 100 }];
