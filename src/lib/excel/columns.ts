@@ -77,9 +77,13 @@ export const COLUMNAS_PLANTILLA: ColumnaExcel[] = [
   { nombre: 'Otros Descuentos', campo: 'otros_descuentos', tipo: 'number', obligatorio: false, variantes: ['Otros Desc.'] },
   { nombre: 'Total \nDescuentos', campo: 'total_deducciones', tipo: 'number', obligatorio: false, variantes: ['Total Descuentos'] },
 
-  // Neto y firmas
+  // Neto
   { nombre: 'Neto', campo: 'sueldo_neto', tipo: 'number', obligatorio: false, variantes: ['Neto ', 'Sueldo Neto'] },
-  { nombre: 'Firmas', campo: 'firmas', tipo: 'string', obligatorio: false },
+
+  // Nuevos campos de clasificacion
+  { nombre: 'Nivel', campo: 'nivel_completo', tipo: 'string', obligatorio: false, variantes: ['NIVEL', 'Nivel Educativo'] },
+  { nombre: 'Tipo Planta', campo: 'tipo_planta', tipo: 'string', obligatorio: false, variantes: ['Tipo de Planta', 'TIPO PLANTA'] },
+  { nombre: 'Tipo Liquidacion', campo: 'tipo_liquidacion_excel', tipo: 'string', obligatorio: false, variantes: ['Tipo de Liquidacion', 'TIPO LIQUIDACION'] },
 ];
 
 // Nombres de hojas validos en los archivos Excel

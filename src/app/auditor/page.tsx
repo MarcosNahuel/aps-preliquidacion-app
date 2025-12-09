@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import PresentacionesTable from '@/components/PresentacionesTable';
-import { Loader2, RefreshCw, Filter, Download, Building2 } from 'lucide-react';
+import { Loader2, RefreshCw, Filter, Download, Building2, FileSpreadsheet, AlertCircle } from 'lucide-react';
 import type { Usuario, Presentacion, Colegio, NivelCodigo, TipoLiquidacion, EstadoPresentacion } from '@/types/database';
 import { NIVELES, TIPOS_LIQUIDACION, ESTADOS_PRESENTACION } from '@/types/database';
 
@@ -22,6 +22,10 @@ export default function AuditorPage() {
   const [filtroPeriodo, setFiltroPeriodo] = useState('');
   const [filtroTipo, setFiltroTipo] = useState<TipoLiquidacion | ''>('');
   const [filtroEstado, setFiltroEstado] = useState<EstadoPresentacion | ''>('');
+
+  // Descarga consolidada
+  const [downloading, setDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchSession();

@@ -92,7 +92,7 @@ export default function RegistroPage() {
             Registro de Usuario
           </h1>
           <p className="mt-2 text-gray-600">
-            Sistema APS Preliquidacion
+            PRELIQ-DGE
           </p>
         </div>
 

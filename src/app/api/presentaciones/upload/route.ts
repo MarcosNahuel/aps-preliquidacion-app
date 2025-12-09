@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { validarExtension, validarEstructura, validarDatos, extraerDatos } from '@/lib/excel/validation';
 import { generarExcelConErrores } from '@/lib/excel/generator';
-import type { TipoLiquidacion } from '@/types/database';
+import type { TipoLiquidacion, TipoPlanta } from '@/types/database';
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
     const file = formData.get('file') as File;
     const periodo = formData.get('periodo') as string;
     const tipoLiquidacion = formData.get('tipo_liquidacion') as TipoLiquidacion;
+    const tipoPlanta = formData.get('tipo_planta') as TipoPlanta || 'TITULAR';
     const idColegio = formData.get('id_colegio') as string;
 
     if (!file || !periodo || !tipoLiquidacion) {
@@ -64,6 +65,7 @@ export async function POST(request: NextRequest) {
           id_colegio: colegioId,
           periodo,
           tipo_liquidacion: tipoLiquidacion,
+          tipo_planta: tipoPlanta,
           estado: 'RECHAZADA',
           tipo_error: 'ESTRUCTURAL',
           motivo_rechazo: validacionExtension.mensaje,
@@ -96,6 +98,7 @@ export async function POST(request: NextRequest) {
           id_colegio: colegioId,
           periodo,
           tipo_liquidacion: tipoLiquidacion,
+          tipo_planta: tipoPlanta,
           estado: 'RECHAZADA',
           tipo_error: 'ESTRUCTURAL',
           motivo_rechazo: validacionEstructura.mensaje,
@@ -136,6 +139,7 @@ export async function POST(request: NextRequest) {
           id_colegio: colegioId,
           periodo,
           tipo_liquidacion: tipoLiquidacion,
+          tipo_planta: tipoPlanta,
           estado: 'RECHAZADA',
           tipo_error: 'DATOS',
           motivo_rechazo: `Se encontraron ${resultadoValidacion.filasConError} filas con errores de un total de ${resultadoValidacion.totalFilas} filas`,
@@ -182,6 +186,7 @@ export async function POST(request: NextRequest) {
         id_colegio: colegioId,
         periodo,
         tipo_liquidacion: tipoLiquidacion,
+        tipo_planta: tipoPlanta,
         estado: 'CARGADA',
         total_filas: datosExcel.length,
         costo_total_presentado: costoTotal,

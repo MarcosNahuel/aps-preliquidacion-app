@@ -7,12 +7,13 @@ export type TipoLiquidacion =
   | 'AG01'
   | 'AG02'
   | 'SUPLEMENTARIA'
-  | 'RECTIFICATIVA'
-  | 'LIQUIDACION_DOCENTE'
-  | 'SUPLENCIAS_LICENCIAS_SIN_GOCE'
-  | 'SUPLENCIAS_ENFERMEDAD_MATERNIDAD'
-  | 'MAESTRANZA_SUTE'
-  | 'MAESTRANZA_SOEME';
+  | 'RECTIFICATIVA';
+
+export type TipoPlanta =
+  | 'TITULAR'
+  | 'SUPLENTES'
+  | 'MAESTRANZA'
+  | 'LICENCIA';
 
 export type EstadoPresentacion = 'CARGADA' | 'CERRADA' | 'RECHAZADA';
 
@@ -50,6 +51,7 @@ export interface Presentacion {
   id_colegio: string;
   periodo: string;
   tipo_liquidacion: TipoLiquidacion;
+  tipo_planta: TipoPlanta;
   estado: EstadoPresentacion;
   tipo_error: TipoError | null;
   motivo_rechazo: string | null;
@@ -196,15 +198,17 @@ export const NIVELES: { codigo: NivelCodigo; nombre: string }[] = [
 
 export const TIPOS_LIQUIDACION: { codigo: TipoLiquidacion; nombre: string }[] = [
   { codigo: 'MENSUAL', nombre: 'Liquidación Mensual' },
-  { codigo: 'AG01', nombre: 'Aguinaldo 1er Semestre' },
-  { codigo: 'AG02', nombre: 'Aguinaldo 2do Semestre' },
+  { codigo: 'AG01', nombre: 'Aguinaldo 1er Semestre (1er SAC)' },
+  { codigo: 'AG02', nombre: 'Aguinaldo 2do Semestre (2do SAC)' },
   { codigo: 'SUPLEMENTARIA', nombre: 'Suplementaria' },
   { codigo: 'RECTIFICATIVA', nombre: 'Rectificativa' },
-  { codigo: 'LIQUIDACION_DOCENTE', nombre: 'Liquidación Docente' },
-  { codigo: 'SUPLENCIAS_LICENCIAS_SIN_GOCE', nombre: 'Suplencias - Licencias sin Goce' },
-  { codigo: 'SUPLENCIAS_ENFERMEDAD_MATERNIDAD', nombre: 'Suplencias - Enfermedad/Maternidad' },
-  { codigo: 'MAESTRANZA_SUTE', nombre: 'Maestranza SUTE' },
-  { codigo: 'MAESTRANZA_SOEME', nombre: 'Maestranza SOEME' },
+];
+
+export const TIPOS_PLANTA: { codigo: TipoPlanta; nombre: string }[] = [
+  { codigo: 'TITULAR', nombre: 'Planta Titular' },
+  { codigo: 'SUPLENTES', nombre: 'Suplentes' },
+  { codigo: 'MAESTRANZA', nombre: 'Maestranza' },
+  { codigo: 'LICENCIA', nombre: 'Licencia' },
 ];
 
 export const ESTADOS_PRESENTACION: { codigo: EstadoPresentacion; nombre: string; color: string }[] = [

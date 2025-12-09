@@ -5,7 +5,7 @@ import type { ErrorValidacion } from '@/types/database';
 // Generar plantilla Excel modelo vacia
 export async function generarPlantillaModelo(): Promise<Buffer> {
   const workbook = new ExcelJS.Workbook();
-  workbook.creator = 'Sistema APS Preliquidacion';
+  workbook.creator = 'PRELIQ-DGE';
   workbook.created = new Date();
 
   const hoja = workbook.addWorksheet(NOMBRE_HOJA_ESPERADO);
@@ -281,7 +281,7 @@ export async function generarExcelConsolidado(
   nombreArchivo: string
 ): Promise<Buffer> {
   const workbook = new ExcelJS.Workbook();
-  workbook.creator = 'Sistema APS Preliquidacion';
+  workbook.creator = 'PRELIQ-DGE';
   workbook.created = new Date();
 
   const hoja = workbook.addWorksheet('Consolidado');

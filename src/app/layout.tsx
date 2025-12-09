@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'APS Preliquidacion - Colegios Privados Mendoza',
-  description: 'Sistema de rendiciones de colegios privados subsidiados de Mendoza',
+  title: 'PRELIQ-DGE - Sistema de Preliquidaciones Colegios Privados',
+  description: 'Sistema de preliquidaciones de colegios privados subsidiados - Direccion General de Escuelas Mendoza',
 }
 
 export default function RootLayout({

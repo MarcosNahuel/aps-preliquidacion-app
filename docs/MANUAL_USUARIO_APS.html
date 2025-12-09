@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario - PRELIQ-DGE - Sistema de Preliquidaciones Colegios Privados</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fff;
+        }
+
+        h1 {
+            color: #1a365d;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #3182ce;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            color: #2c5282;
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #bee3f8;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2d3748;
+            font-size: 1.4em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            color: #4a5568;
+            font-size: 1.1em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .department {
+            color: #4a5568;
+            font-size: 1em;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .toc {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+            color: #2c5282;
+        }
+
+        .toc ol {
+            margin-left: 20px;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: #3182ce;
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #edf2f7;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .screenshot {
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .screenshot img {
+            max-width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .screenshot-caption {
+            color: #718096;
+            font-size: 0.9em;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .info-box {
+            background: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fffaf0;
+            border-left: 4px solid #ed8936;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .important-box {
+            background: #fff5f5;
+            border-left: 4px solid #e53e3e;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .steps {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .steps ol {
+            margin-left: 20px;
+        }
+
+        .steps li {
+            margin: 12px 0;
+        }
+
+        strong {
+            color: #2d3748;
+        }
+
+        code {
+            background: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            color: #718096;
+            font-size: 0.9em;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            .screenshot img {
+                max-width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Manual de Usuario</h1>
+    <p class="subtitle">PRELIQ-DGE</p>
+    <p class="department">Sistema de Preliquidaciones Colegios Privados<br>Direccion General de Escuelas - Mendoza</p>
+
+    <div class="important-box">
+        <h3>Credenciales de Acceso (Ambiente de Demostracion)</h3>
+        <table>
+            <tr>
+                <th>Rol</th>
+                <th>Email</th>
+                <th>Contraseña</th>
+            </tr>
+            <tr>
+                <td><strong>Administrador/Auditor DGE</strong></td>
+                <td><code>auditor.dge@gmail.com</code></td>
+                <td><code>Test123456</code></td>
+            </tr>
+            <tr>
+                <td><strong>Colegio (P-001)</strong></td>
+                <td><code>colegio.p001@gmail.com</code></td>
+                <td><code>Test123456</code></td>
+            </tr>
+        </table>
+        <p style="margin-top: 10px; font-size: 0.9em;"><strong>Nota:</strong> Estas credenciales son para el ambiente de demostracion. En produccion, cada usuario tendra sus propias credenciales asignadas por la Direccion de Educacion Privada.</p>
+    </div>
+
+    <div class="toc">
+        <h3>Tabla de Contenidos</h3>
+        <ol>
+            <li><a href="#introduccion">Introduccion</a></li>
+            <li><a href="#acceso">Acceso al Sistema</a></li>
+            <li><a href="#registro">Registro de Usuarios</a></li>
+            <li><a href="#portal">Portal de Colegio</a></li>
+            <li><a href="#carga">Carga de Preliquidaciones</a></li>
+            <li><a href="#gestion">Gestion de Presentaciones</a></li>
+            <li><a href="#auditoria">Panel de Auditoria</a></li>
+            <li><a href="#faq">Preguntas Frecuentes</a></li>
+            <li><a href="#anexo">Anexo Tecnico</a></li>
+        </ol>
+    </div>
+
+    <h2 id="introduccion">1. Introduccion</h2>
+
+    <h3>Objetivo del Sistema</h3>
+    <p><strong>PRELIQ-DGE</strong> (Sistema de Preliquidaciones Colegios Privados) fue desarrollado con el objetivo de <strong>digitalizar y optimizar el proceso de rendicion de liquidaciones de personal</strong> de los colegios privados subvencionados de la Provincia de Mendoza.</p>
+
+    <p>Actualmente, el proceso de presentacion de preliquidaciones se realiza de forma manual, lo que genera:</p>
+    <ul>
+        <li>Demoras en la recepcion y procesamiento de la informacion</li>
+        <li>Errores en los datos que deben corregirse de forma iterativa</li>
+        <li>Dificultad para consolidar informacion de multiples colegios</li>
+        <li>Falta de trazabilidad en el estado de las presentaciones</li>
+    </ul>
+
+    <p>Este sistema busca resolver estos problemas mediante:</p>
+    <ul>
+        <li><strong>Centralizacion:</strong> Un unico punto de carga para todos los colegios</li>
+        <li><strong>Validacion automatica:</strong> Deteccion inmediata de errores en formato y datos</li>
+        <li><strong>Trazabilidad:</strong> Seguimiento completo del estado de cada presentacion</li>
+        <li><strong>Eficiencia:</strong> Reduccion de tiempos de procesamiento y comunicacion</li>
+    </ul>
+
+    <h3>Descripcion General</h3>
+    <p><strong>PRELIQ-DGE</strong> es una plataforma web desarrollada para la Direccion General de Escuelas de Mendoza que permite a los colegios privados gestionar sus rendiciones de liquidaciones de personal de manera digital y eficiente.</p>
+
+    <h3>Caracteristicas Principales</h3>
+    <ul>
+        <li><strong>Carga de archivos Excel:</strong> Permite subir plantillas Excel con los datos de liquidacion del personal</li>
+        <li><strong>Validacion automatica:</strong> El sistema valida la estructura y datos del archivo automaticamente</li>
+        <li><strong>Seguimiento de estados:</strong> Las presentaciones pasan por diferentes estados (Cargada, Cerrada, Rechazada)</li>
+        <li><strong>Panel de auditoria:</strong> Los auditores de la DGE pueden revisar y controlar todas las presentaciones</li>
+        <li><strong>Reportes de errores:</strong> Generacion automatica de archivos con errores detectados</li>
+    </ul>
+
+    <h3>Roles de Usuario</h3>
+    <table>
+        <tr>
+            <th>Rol</th>
+            <th>Descripcion</th>
+        </tr>
+        <tr>
+            <td><strong>COLEGIO</strong></td>
+            <td>Usuario del colegio que carga y gestiona sus propias preliquidaciones</td>
+        </tr>
+        <tr>
+            <td><strong>AUDITOR</strong></td>
+            <td>Usuario de la DGE que revisa y audita todas las presentaciones</td>
+        </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h2 id="acceso">2. Acceso al Sistema</h2>
+
+    <h3>Pantalla de Seleccion de Acceso</h3>
+    <p>Para acceder al sistema, ingrese a la URL proporcionada por la Direccion de Educacion Privada. La pantalla inicial presenta dos opciones de acceso claramente diferenciadas:</p>
+
+    <div class="screenshot">
+        <img src="screenshots/06-login-seleccion.png" alt="Pantalla de Seleccion">
+        <p class="screenshot-caption">Figura 1: Pantalla de seleccion de tipo de acceso</p>
+    </div>
+
+    <h3>Tipos de Acceso</h3>
+    <table>
+        <tr>
+            <th>Tipo</th>
+            <th>Descripcion</th>
+            <th>Usuarios</th>
+        </tr>
+        <tr>
+            <td><strong>Colegio</strong></td>
+            <td>Portal para instituciones educativas</td>
+            <td>Usuarios de colegios privados</td>
+        </tr>
+        <tr>
+            <td><strong>Administrador</strong></td>
+            <td>Panel de auditoria DGE</td>
+            <td>Auditores y personal administrativo</td>
+        </tr>
+    </table>
+
+    <h3>Acceso para Colegios</h3>
+    <p>Al seleccionar la opcion "Colegio", se mostrara el formulario de login con tema azul:</p>
+
+    <div class="screenshot">
+        <img src="screenshots/09-login-colegio.png" alt="Login Colegio">
+        <p class="screenshot-caption">Figura 2: Formulario de acceso para colegios</p>
+    </div>
+
+    <div class="steps">
+        <ol>
+            <li>Haga clic en el boton <strong>"Colegio"</strong> en la pantalla de seleccion</li>
+            <li><strong>Correo electronico:</strong> Ingrese el correo electronico registrado</li>
+            <li><strong>Contrasena:</strong> Ingrese su contrasena</li>
+            <li>Haga clic en <strong>"Iniciar sesion"</strong></li>
+        </ol>
+    </div>
+
+    <h3>Acceso para Administradores (Auditores DGE)</h3>
+    <p>Al seleccionar la opcion "Administrador", se mostrara el formulario de login con tema verde:</p>
+
+    <div class="screenshot">
+        <img src="screenshots/07-login-admin.png" alt="Login Administrador">
+        <p class="screenshot-caption">Figura 3: Formulario de acceso para administradores</p>
+    </div>
+
+    <div class="steps">
+        <ol>
+            <li>Haga clic en el boton <strong>"Administrador"</strong> en la pantalla de seleccion</li>
+            <li><strong>Correo electronico:</strong> Ingrese su correo institucional</li>
+            <li><strong>Contrasena:</strong> Ingrese su contrasena</li>
+            <li>Haga clic en <strong>"Iniciar sesion"</strong></li>
+        </ol>
+    </div>
+
+    <h3>Opciones Adicionales</h3>
+    <ul>
+        <li><strong>Olvidaste tu contrasena?:</strong> Permite recuperar el acceso mediante correo electronico</li>
+        <li><strong>Volver a seleccionar tipo de acceso:</strong> Regresa a la pantalla de seleccion inicial</li>
+        <li><strong>Registrate aqui:</strong> Para crear una nueva cuenta de usuario (disponible en pantalla de seleccion)</li>
+    </ul>
+
+    <div class="info-box">
+        <strong>Indicador de Seguridad:</strong> El sistema muestra un indicador de "Conexion segura" que garantiza que sus datos viajan encriptados.
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2 id="registro">3. Registro de Usuarios</h2>
+
+    <h3>Pantalla de Registro</h3>
+    <p>Si no tiene una cuenta, puede registrarse haciendo clic en "Registrate aqui" desde la pantalla de login.</p>
+
+    <div class="screenshot">
+        <img src="screenshots/02-registro.png" alt="Pantalla de Registro">
+        <p class="screenshot-caption">Figura 2: Formulario de registro de nuevos usuarios</p>
+    </div>
+
+    <h3>Proceso de Registro para Colegios</h3>
+    <div class="steps">
+        <ol>
+            <li><strong>Tipo de Usuario:</strong> Seleccione "Colegio"</li>
+            <li><strong>Nivel:</strong> Seleccione el nivel educativo correspondiente:
+                <ul>
+                    <li>P - Primario</li>
+                    <li>PE - Especial</li>
+                    <li>PP - Primario Especial</li>
+                    <li>PS - Secundario</li>
+                    <li>PT - Terciario</li>
+                </ul>
+            </li>
+            <li><strong>Colegio:</strong> Seleccione su colegio de la lista (se filtra automaticamente segun el nivel)</li>
+            <li><strong>Nombre Completo:</strong> Ingrese su nombre completo</li>
+            <li><strong>Correo electronico:</strong> Ingrese un correo electronico valido</li>
+            <li><strong>Contrasena:</strong> Cree una contrasena de minimo 6 caracteres</li>
+            <li>Haga clic en <strong>"Crear Usuario"</strong></li>
+        </ol>
+    </div>
+
+    <div class="info-box">
+        <strong>Registro para Auditores DGE:</strong> Los auditores de la DGE seleccionan "Auditor DGE" como tipo de usuario. Este tipo de cuenta no requiere asociarse a un colegio especifico.
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2 id="portal">4. Portal de Colegio</h2>
+
+    <h3>Dashboard Principal</h3>
+    <p>Una vez iniciada la sesion como usuario de colegio, accede al dashboard principal donde puede gestionar todas sus preliquidaciones.</p>
+
+    <div class="screenshot">
+        <img src="screenshots/03-dashboard-colegio.png" alt="Dashboard de Colegio">
+        <p class="screenshot-caption">Figura 3: Dashboard principal del portal de colegio</p>
+    </div>
+
+    <h3>Elementos del Dashboard</h3>
+
+    <h4>Encabezado</h4>
+    <ul>
+        <li><strong>Logo del sistema:</strong> APS Preliquidacion</li>
+        <li><strong>Indicador de portal:</strong> "Portal de Colegio"</li>
+        <li><strong>Nombre de usuario:</strong> Muestra el nombre del usuario logueado</li>
+        <li><strong>Codigo de colegio:</strong> Identificador unico del colegio (ej: P-001)</li>
+        <li><strong>Boton Salir:</strong> Para cerrar la sesion</li>
+    </ul>
+
+    <h4>Informacion del Colegio</h4>
+    <ul>
+        <li><strong>Nivel:</strong> Codigo del nivel educativo (P, PS, PT, etc.)</li>
+        <li><strong>Codigo:</strong> Numero identificador del colegio</li>
+        <li><strong>Porcentaje de subsidio:</strong> Porcentaje de subsidio estatal asignado</li>
+    </ul>
+
+    <h4>Secciones Principales</h4>
+    <ol>
+        <li><strong>Cargar Preliquidacion:</strong> Formulario para subir nuevas liquidaciones</li>
+        <li><strong>Presentaciones Cerradas:</strong> Lista de presentaciones ya finalizadas con su costo total</li>
+        <li><strong>Presentaciones en Proceso:</strong> Lista de presentaciones pendientes o rechazadas</li>
+    </ol>
+
+    <div class="page-break"></div>
+
+    <h2 id="carga">5. Carga de Preliquidaciones</h2>
+
+    <h3>Formulario de Carga</h3>
+
+    <div class="screenshot">
+        <img src="screenshots/05-formulario-carga.png" alt="Formulario de Carga">
+        <p class="screenshot-caption">Figura 4: Formulario para cargar preliquidaciones</p>
+    </div>
+
+    <h3>Pasos para Cargar una Preliquidacion</h3>
+
+    <h4>Paso 1: Seleccionar Periodo</h4>
+    <p>Seleccione el periodo de liquidacion del desplegable. Los periodos disponibles van desde el mes actual hasta 18 meses hacia atras.</p>
+
+    <h4>Paso 2: Seleccionar Tipo de Liquidacion</h4>
+    <p>Seleccione el tipo de liquidacion correspondiente:</p>
+
+    <table>
+        <tr>
+            <th>Tipo</th>
+            <th>Descripcion</th>
+        </tr>
+        <tr>
+            <td>Liquidacion Mensual</td>
+            <td>Liquidacion regular del mes</td>
+        </tr>
+        <tr>
+            <td>Aguinaldo 1er Semestre</td>
+            <td>SAC correspondiente al primer semestre</td>
+        </tr>
+        <tr>
+            <td>Aguinaldo 2do Semestre</td>
+            <td>SAC correspondiente al segundo semestre</td>
+        </tr>
+        <tr>
+            <td>Suplementaria</td>
+            <td>Liquidacion adicional</td>
+        </tr>
+        <tr>
+            <td>Rectificativa</td>
+            <td>Correccion de una liquidacion anterior</td>
+        </tr>
+        <tr>
+            <td>Liquidacion Docente</td>
+            <td>Especifica para personal docente</td>
+        </tr>
+        <tr>
+            <td>Suplencias - Licencias sin Goce</td>
+            <td>Para personal en suplencia por licencias</td>
+        </tr>
+        <tr>
+            <td>Suplencias - Enfermedad/Maternidad</td>
+            <td>Para suplencias por enfermedad o maternidad</td>
+        </tr>
+        <tr>
+            <td>Maestranza SUTE</td>
+            <td>Personal de maestranza afiliado a SUTE</td>
+        </tr>
+        <tr>
+            <td>Maestranza SOEME</td>
+            <td>Personal de maestranza afiliado a SOEME</td>
+        </tr>
+    </table>
+
+    <h4>Paso 3: Descargar Plantilla</h4>
+    <p>Antes de cargar su archivo, descargue la plantilla oficial haciendo clic en <strong>"Descargar Plantilla"</strong>.</p>
+
+    <div class="info-box">
+        <strong>La plantilla contiene:</strong>
+        <ul>
+            <li>Estructura de columnas requerida</li>
+            <li>Formato de datos esperado</li>
+            <li>Ejemplos de datos validos</li>
+        </ul>
+    </div>
+
+    <h4>Paso 4: Preparar el Archivo Excel</h4>
+    <p>Complete la plantilla con los datos de su liquidacion siguiendo estas reglas:</p>
+
+    <table>
+        <tr>
+            <th>Columna</th>
+            <th>Descripcion</th>
+            <th>Formato</th>
+        </tr>
+        <tr>
+            <td>LEGAJO</td>
+            <td>Numero de legajo del empleado</td>
+            <td>Numerico</td>
+        </tr>
+        <tr>
+            <td>CUIL</td>
+            <td>CUIL del empleado</td>
+            <td>11 digitos sin guiones</td>
+        </tr>
+        <tr>
+            <td>CARGO</td>
+            <td>Descripcion del cargo</td>
+            <td>Texto</td>
+        </tr>
+        <tr>
+            <td>HORAS</td>
+            <td>Cantidad de horas</td>
+            <td>Numerico</td>
+        </tr>
+        <tr>
+            <td>BRUTO</td>
+            <td>Sueldo bruto</td>
+            <td>Numerico decimal</td>
+        </tr>
+        <tr>
+            <td>NETO</td>
+            <td>Sueldo neto</td>
+            <td>Numerico decimal</td>
+        </tr>
+        <tr>
+            <td>ARRAIGO</td>
+            <td>Monto de arraigo</td>
+            <td>Numerico decimal</td>
+        </tr>
+    </table>
+
+    <h4>Paso 5: Subir el Archivo</h4>
+    <div class="steps">
+        <ol>
+            <li>Arrastre el archivo Excel al area indicada, o haga clic para seleccionarlo</li>
+            <li>Solo se aceptan archivos <strong>.xlsx</strong> (Excel 2007 o superior)</li>
+            <li>Haga clic en <strong>"Subir Archivo"</strong></li>
+        </ol>
+    </div>
+
+    <h3>Estados de la Presentacion</h3>
+    <p>Despues de subir un archivo, la presentacion puede quedar en diferentes estados:</p>
+
+    <table>
+        <tr>
+            <th>Estado</th>
+            <th>Descripcion</th>
+            <th>Color</th>
+        </tr>
+        <tr>
+            <td><strong>CARGADA</strong></td>
+            <td>Archivo procesado correctamente, pendiente de cierre</td>
+            <td style="background: #fef3c7;">Amarillo</td>
+        </tr>
+        <tr>
+            <td><strong>CERRADA</strong></td>
+            <td>Presentacion finalizada y enviada</td>
+            <td style="background: #d1fae5;">Verde</td>
+        </tr>
+        <tr>
+            <td><strong>RECHAZADA</strong></td>
+            <td>Archivo con errores que requiere correccion</td>
+            <td style="background: #fee2e2;">Rojo</td>
+        </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h2 id="gestion">6. Gestion de Presentaciones</h2>
+
+    <h3>Detalle de Presentacion</h3>
+    <p>Haga clic en <strong>"Ver detalle"</strong> para acceder a la informacion completa de una presentacion.</p>
+
+    <div class="screenshot">
+        <img src="screenshots/04-detalle-presentacion.png" alt="Detalle de Presentacion">
+        <p class="screenshot-caption">Figura 5: Vista detallada de una presentacion</p>
+    </div>
+
+    <h4>Informacion General</h4>
+    <ul>
+        <li><strong>Periodo:</strong> Mes y ano de la liquidacion</li>
+        <li><strong>Tipo:</strong> Tipo de liquidacion</li>
+        <li><strong>Estado:</strong> Estado actual de la presentacion</li>
+        <li><strong>Total Filas:</strong> Cantidad de registros en la liquidacion</li>
+        <li><strong>Costo Total:</strong> Suma total de la liquidacion</li>
+        <li><strong>Fecha Subida:</strong> Fecha y hora de carga del archivo</li>
+        <li><strong>Errores:</strong> Cantidad de errores detectados (si los hay)</li>
+    </ul>
+
+    <h4>Detalle de Liquidaciones</h4>
+    <p>Tabla con el detalle de cada empleado:</p>
+    <ul>
+        <li><strong>LEGAJO:</strong> Numero de legajo</li>
+        <li><strong>NOMBRE:</strong> Nombre del empleado (si esta disponible)</li>
+        <li><strong>CUIL:</strong> Numero de CUIL</li>
+        <li><strong>CARGO:</strong> Descripcion del cargo</li>
+        <li><strong>HORAS:</strong> Cantidad de horas</li>
+        <li><strong>BRUTO:</strong> Sueldo bruto</li>
+        <li><strong>NETO:</strong> Sueldo neto</li>
+        <li><strong>ARRAIGO:</strong> Monto de arraigo</li>
+    </ul>
+
+    <h3>Acciones Disponibles</h3>
+
+    <table>
+        <tr>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        <tr>
+            <td><strong>CARGADA</strong></td>
+            <td>Ver detalle, Cerrar presentacion</td>
+        </tr>
+        <tr>
+            <td><strong>RECHAZADA</strong></td>
+            <td>Ver detalle, Descargar errores</td>
+        </tr>
+        <tr>
+            <td><strong>CERRADA</strong></td>
+            <td>Ver detalle</td>
+        </tr>
+    </table>
+
+    <div class="important-box">
+        <strong>IMPORTANTE:</strong> Una vez cerrada, la presentacion no puede ser modificada. Si necesita hacer correcciones, debera crear una nueva presentacion de tipo "Rectificativa".
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2 id="auditoria">7. Panel de Auditoria</h2>
+
+    <h3>Acceso al Panel</h3>
+    <p>Los usuarios con rol <strong>AUDITOR</strong> acceden automaticamente al Panel de Auditoria al iniciar sesion seleccionando la opcion "Administrador" en la pantalla inicial.</p>
+
+    <div class="screenshot">
+        <img src="screenshots/10-auditor-panel-completo.png" alt="Panel de Auditoria Completo">
+        <p class="screenshot-caption">Figura 10: Vista completa del Panel de Auditoria</p>
+    </div>
+
+    <h3>Vista General del Panel</h3>
+    <p>El panel de auditoria proporciona una vista completa de todas las presentaciones de todos los colegios del sistema, permitiendo un control centralizado de las preliquidaciones.</p>
+
+    <div class="screenshot">
+        <img src="screenshots/11-auditor-estadisticas.png" alt="Estadisticas del Panel">
+        <p class="screenshot-caption">Figura 11: Estadisticas y filtros del Panel de Auditoria</p>
+    </div>
+
+    <h3>Funcionalidades del Panel de Auditoria</h3>
+
+    <h4>Estadisticas Generales (Tarjetas Superiores)</h4>
+    <p>El panel muestra estadisticas en tiempo real mediante tarjetas informativas:</p>
+
+    <table>
+        <tr>
+            <th>Tarjeta</th>
+            <th>Descripcion</th>
+            <th>Color</th>
+        </tr>
+        <tr>
+            <td><strong>Total</strong></td>
+            <td>Cantidad total de presentaciones en el sistema</td>
+            <td>Azul</td>
+        </tr>
+        <tr>
+            <td><strong>Pendientes</strong></td>
+            <td>Presentaciones en estado CARGADA esperando cierre</td>
+            <td>Amarillo</td>
+        </tr>
+        <tr>
+            <td><strong>Cerradas</strong></td>
+            <td>Presentaciones finalizadas correctamente</td>
+            <td>Verde</td>
+        </tr>
+        <tr>
+            <td><strong>Rechazadas</strong></td>
+            <td>Presentaciones con errores de datos o estructura</td>
+            <td>Rojo</td>
+        </tr>
+        <tr>
+            <td><strong>Costo Total</strong></td>
+            <td>Suma de costos de todas las presentaciones validas</td>
+            <td>Esmeralda</td>
+        </tr>
+    </table>
+
+    <h4>Sistema de Filtros Avanzados</h4>
+
+    <div class="screenshot">
+        <img src="screenshots/12-auditor-filtros.png" alt="Filtros del Panel">
+        <p class="screenshot-caption">Figura 12: Sistema de filtros avanzados</p>
+    </div>
+
+    <p>Los auditores disponen de un completo sistema de filtros para encontrar presentaciones especificas:</p>
+
+    <table>
+        <tr>
+            <th>Filtro</th>
+            <th>Descripcion</th>
+            <th>Opciones</th>
+        </tr>
+        <tr>
+            <td><strong>Nivel</strong></td>
+            <td>Nivel educativo del colegio</td>
+            <td>P (Primario), PE (Especial), PP (Primario Especial), PS (Secundario), PT (Terciario)</td>
+        </tr>
+        <tr>
+            <td><strong>Colegio</strong></td>
+            <td>Codigo del colegio especifico</td>
+            <td>Lista dinamica de todos los colegios (ej: P-001, PS-025, PT-010)</td>
+        </tr>
+        <tr>
+            <td><strong>Periodo</strong></td>
+            <td>Mes y ano de la liquidacion</td>
+            <td>Ultimos 24 meses disponibles</td>
+        </tr>
+        <tr>
+            <td><strong>Tipo</strong></td>
+            <td>Tipo de liquidacion</td>
+            <td>Mensual, Aguinaldo, Suplementaria, Rectificativa, etc.</td>
+        </tr>
+        <tr>
+            <td><strong>Estado</strong></td>
+            <td>Estado actual de la presentacion</td>
+            <td>Cargada, Cerrada, Rechazada</td>
+        </tr>
+    </table>
+
+    <div class="info-box">
+        <strong>Boton "Limpiar filtros":</strong> Restablece todos los filtros a "Todos" para ver la lista completa de presentaciones.
+    </div>
+
+    <h4>Tabla de Presentaciones</h4>
+    <p>La tabla muestra la siguiente informacion para cada presentacion:</p>
+
+    <table>
+        <tr>
+            <th>Columna</th>
+            <th>Descripcion</th>
+        </tr>
+        <tr>
+            <td><strong>COLEGIO</strong></td>
+            <td>Codigo del colegio (Nivel-Numero)</td>
+        </tr>
+        <tr>
+            <td><strong>PERIODO</strong></td>
+            <td>Mes y ano de la liquidacion</td>
+        </tr>
+        <tr>
+            <td><strong>TIPO</strong></td>
+            <td>Tipo de liquidacion presentada</td>
+        </tr>
+        <tr>
+            <td><strong>ESTADO</strong></td>
+            <td>Estado actual con indicador de motivo de rechazo</td>
+        </tr>
+        <tr>
+            <td><strong>FILAS</strong></td>
+            <td>Cantidad de registros (y errores si aplica)</td>
+        </tr>
+        <tr>
+            <td><strong>COSTO TOTAL</strong></td>
+            <td>Monto total de la liquidacion</td>
+        </tr>
+        <tr>
+            <td><strong>FECHA</strong></td>
+            <td>Fecha y hora de carga</td>
+        </tr>
+        <tr>
+            <td><strong>ACCIONES</strong></td>
+            <td>Botones de accion disponibles</td>
+        </tr>
+    </table>
+
+    <h4>Estados de Presentacion Visibles</h4>
+    <ul>
+        <li><strong>Cerrada</strong> (Verde): Presentacion finalizada y valida</li>
+        <li><strong>Rechazada (DATOS)</strong> (Rojo): Errores en datos individuales - permite descargar archivo de errores</li>
+        <li><strong>Rechazada (ESTRUCTURAL)</strong> (Rojo): Error en formato del archivo - debe corregirse estructura</li>
+        <li><strong>Cargada</strong> (Amarillo): Pendiente de cierre por el colegio</li>
+    </ul>
+
+    <h4>Acciones Disponibles por Estado</h4>
+    <table>
+        <tr>
+            <th>Estado</th>
+            <th>Acciones Disponibles</th>
+        </tr>
+        <tr>
+            <td><strong>Cerrada</strong></td>
+            <td>Ver detalle, Descargar original</td>
+        </tr>
+        <tr>
+            <td><strong>Rechazada (DATOS)</strong></td>
+            <td>Ver detalle, Descargar errores</td>
+        </tr>
+        <tr>
+            <td><strong>Rechazada (ESTRUCTURAL)</strong></td>
+            <td>Ver detalle</td>
+        </tr>
+        <tr>
+            <td><strong>Cargada</strong></td>
+            <td>Ver detalle, Descargar original</td>
+        </tr>
+    </table>
+
+    <h3>Boton Actualizar</h3>
+    <p>El boton <strong>"Actualizar"</strong> permite refrescar la lista de presentaciones para ver los cambios mas recientes sin necesidad de recargar la pagina.</p>
+
+    <div class="page-break"></div>
+
+    <h2 id="faq">8. Preguntas Frecuentes</h2>
+
+    <h3>Sobre el Acceso</h3>
+
+    <p><strong>P: Olvide mi contrasena, que hago?</strong><br>
+    R: Haga clic en "Olvidaste tu contrasena?" en la pantalla de login y siga las instrucciones para recuperarla por correo electronico.</p>
+
+    <p><strong>P: No puedo acceder con mis credenciales</strong><br>
+    R: Verifique que este usando el correo electronico correcto y que la contrasena sea la correcta. Si el problema persiste, contacte al administrador.</p>
+
+    <h3>Sobre la Carga de Archivos</h3>
+
+    <p><strong>P: Que formato debe tener el archivo Excel?</strong><br>
+    R: Debe ser un archivo .xlsx (Excel 2007 o superior) con la estructura de la plantilla oficial. Descargue siempre la plantilla antes de cargar.</p>
+
+    <p><strong>P: Mi archivo fue rechazado por error ESTRUCTURAL</strong><br>
+    R: El archivo no cumple con el formato requerido. Verifique que:</p>
+    <ul>
+        <li>El archivo sea .xlsx</li>
+        <li>Contenga todas las columnas requeridas</li>
+        <li>Los nombres de columnas coincidan exactamente con la plantilla</li>
+    </ul>
+
+    <p><strong>P: Mi archivo fue rechazado por error de DATOS</strong><br>
+    R: Hay errores en los datos ingresados. Descargue el archivo de errores para ver el detalle y corregirlos.</p>
+
+    <p><strong>P: Puedo modificar una presentacion cerrada?</strong><br>
+    R: No, las presentaciones cerradas no pueden modificarse. Si necesita hacer correcciones, debera crear una nueva presentacion de tipo "Rectificativa".</p>
+
+    <h3>Sobre las Presentaciones</h3>
+
+    <p><strong>P: Cual es la diferencia entre CARGADA y CERRADA?</strong><br>
+    R: Una presentacion CARGADA esta procesada pero pendiente de revision final. Una vez que verifica que los datos son correctos, debe cerrarla para enviarla oficialmente.</p>
+
+    <p><strong>P: Por que no puedo cerrar mi presentacion?</strong><br>
+    R: Si la presentacion tiene errores, debe corregirlos primero. Verifique el estado y los errores reportados.</p>
+
+    <div class="page-break"></div>
+
+    <h2 id="anexo">9. Anexo Tecnico</h2>
+
+    <h3>Ambiente de Demostracion</h3>
+    <p>Este sistema se encuentra actualmente en <strong>ambiente de demostracion</strong> con fines de desarrollo y pruebas. La infraestructura utilizada es temporal y esta diseñada para validar el funcionamiento del sistema antes de su implementacion en produccion.</p>
+
+    <h3>Stack Tecnologico Utilizado (Demo)</h3>
+    <table>
+        <tr>
+            <th>Componente</th>
+            <th>Tecnologia</th>
+            <th>Proposito</th>
+        </tr>
+        <tr>
+            <td><strong>Frontend</strong></td>
+            <td>Next.js 14 + React 18</td>
+            <td>Framework web moderno con SSR</td>
+        </tr>
+        <tr>
+            <td><strong>Estilos</strong></td>
+            <td>Tailwind CSS 3</td>
+            <td>Framework CSS utilitario</td>
+        </tr>
+        <tr>
+            <td><strong>Lenguaje</strong></td>
+            <td>TypeScript 5</td>
+            <td>Tipado estatico para mayor robustez</td>
+        </tr>
+        <tr>
+            <td><strong>Base de Datos</strong></td>
+            <td>PostgreSQL (Supabase)</td>
+            <td>Base de datos relacional en la nube</td>
+        </tr>
+        <tr>
+            <td><strong>Autenticacion</strong></td>
+            <td>Supabase Auth</td>
+            <td>Sistema de autenticacion JWT</td>
+        </tr>
+        <tr>
+            <td><strong>Almacenamiento</strong></td>
+            <td>Supabase Storage</td>
+            <td>Almacenamiento de archivos Excel</td>
+        </tr>
+        <tr>
+            <td><strong>Hosting</strong></td>
+            <td>Vercel</td>
+            <td>Plataforma de despliegue serverless</td>
+        </tr>
+        <tr>
+            <td><strong>Procesamiento Excel</strong></td>
+            <td>ExcelJS</td>
+            <td>Lectura y generacion de archivos Excel</td>
+        </tr>
+    </table>
+
+    <h3>Infraestructura de Demostracion</h3>
+    <div class="info-box">
+        <pre style="font-family: monospace; font-size: 0.85em; background: #f7fafc; padding: 15px; border-radius: 5px; overflow-x: auto;">
+┌─────────────────────────────────────────────────────────────┐
+│                    AMBIENTE DE DEMO                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐  │
+│   │   Usuario   │────▶│   Vercel    │────▶│  Supabase   │  │
+│   │  (Browser)  │     │  (Hosting)  │     │ (DB + Auth) │  │
+│   └─────────────┘     └─────────────┘     └─────────────┘  │
+│                                                              │
+│   URL Demo: https://aps-preliquidacion-app.vercel.app       │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+        </pre>
+    </div>
+
+    <h3>Plan de Migracion a Produccion</h3>
+    <p>La arquitectura del sistema esta diseñada para ser facilmente migrable a la infraestructura propia de la DGE. El plan de migracion incluye:</p>
+
+    <h4>Fase 1: Migracion de Base de Datos</h4>
+    <table>
+        <tr>
+            <th>Actual (Demo)</th>
+            <th>Produccion (DGE)</th>
+        </tr>
+        <tr>
+            <td>Supabase PostgreSQL</td>
+            <td>SQL Server DGE</td>
+        </tr>
+        <tr>
+            <td>Supabase Auth</td>
+            <td>Active Directory / LDAP DGE</td>
+        </tr>
+        <tr>
+            <td>Supabase Storage</td>
+            <td>Servidor de archivos DGE</td>
+        </tr>
+    </table>
+
+    <h4>Fase 2: Migracion de Hosting</h4>
+    <table>
+        <tr>
+            <th>Actual (Demo)</th>
+            <th>Produccion (DGE)</th>
+        </tr>
+        <tr>
+            <td>Vercel (serverless)</td>
+            <td>Servidores Windows/Linux DGE</td>
+        </tr>
+        <tr>
+            <td>Dominio vercel.app</td>
+            <td>Dominio mendoza.gov.ar</td>
+        </tr>
+        <tr>
+            <td>SSL automatico</td>
+            <td>Certificados DGE</td>
+        </tr>
+    </table>
+
+    <h4>Fase 3: Integracion con Sistemas DGE</h4>
+    <ul>
+        <li>Conexion con sistemas de liquidacion existentes</li>
+        <li>Integracion con base de datos de personal</li>
+        <li>Single Sign-On con credenciales institucionales</li>
+        <li>Backup y recuperacion segun politicas DGE</li>
+    </ul>
+
+    <h3>Consideraciones para Produccion</h3>
+    <ol>
+        <li><strong>Seguridad:</strong> Implementar VPN o acceso restringido a red interna DGE</li>
+        <li><strong>Escalabilidad:</strong> Configurar balanceador de carga para alta disponibilidad</li>
+        <li><strong>Backup:</strong> Politicas de respaldo diario automatico</li>
+        <li><strong>Monitoreo:</strong> Integracion con herramientas de monitoreo institucionales</li>
+        <li><strong>Compliance:</strong> Cumplimiento con normativas de proteccion de datos provinciales</li>
+    </ol>
+
+    <h3>Ventajas del Stack Actual para Demo</h3>
+    <ul>
+        <li><strong>Costo cero:</strong> Todos los servicios utilizados tienen capa gratuita</li>
+        <li><strong>Despliegue rapido:</strong> Cambios en produccion en minutos</li>
+        <li><strong>Escalabilidad automatica:</strong> Sin preocuparse por infraestructura</li>
+        <li><strong>Alta disponibilidad:</strong> 99.9% uptime garantizado</li>
+        <li><strong>Seguridad incluida:</strong> SSL, autenticacion, RLS en base de datos</li>
+    </ul>
+
+    <div class="footer">
+        <p><strong>Soporte Tecnico</strong></p>
+        <p>Direccion General de Escuelas - Educacion Privada<br>
+        Email: soporte@dge.mendoza.gov.ar</p>
+        <br>
+        <p><em>Documento generado automaticamente - Version 1.0</em><br>
+        <em>PRELIQ-DGE - Sistema de Preliquidaciones Colegios Privados</em><br>
+        <em>Direccion General de Escuelas - Mendoza</em><br>
+        <em>Ambiente de Demostracion - Diciembre 2024</em></p>
+        <br>
+        <p style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+            <strong>Desarrollado por:</strong><br>
+            Nahuel Albornoz<br>
+            <em>Asesor Data Analytics y AI Generative Engineer</em>
+        </p>
+    </div>
+</body>
+</html>

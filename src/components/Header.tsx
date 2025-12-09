@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { Building2, LogOut, User, Menu, X } from 'lucide-react';
+import { Building2, LogOut, User, Menu, X, Home } from 'lucide-react';
 import type { Usuario } from '@/types/database';
 
 interface HeaderProps {
@@ -22,6 +22,13 @@ export default function Header({ usuario }: HeaderProps) {
     router.push('/');
   };
 
+  const handleVolverMenu = async () => {
+    // Cerrar sesion y volver al menu de seleccion
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push('/');
+  };
+
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,7 +40,7 @@ export default function Header({ usuario }: HeaderProps) {
             </div>
             <div>
               <h1 className="text-lg font-semibold text-gray-900">
-                APS Preliquidacion
+                PRELIQ-DGE
               </h1>
               <p className="text-xs text-gray-500">
                 {usuario.rol === 'AUDITOR' ? 'Panel de Auditoria' : 'Portal de Colegio'}
@@ -53,6 +60,14 @@ export default function Header({ usuario }: HeaderProps) {
             <div className="flex items-center justify-center w-10 h-10 bg-primary-100 rounded-full">
               <User className="h-5 w-5 text-primary-600" />
             </div>
+            <button
+              onClick={handleVolverMenu}
+              className="btn-secondary text-sm"
+              title="Volver al menu de seleccion de acceso"
+            >
+              <Home className="h-4 w-4 mr-1" />
+              Menu
+            </button>
             <button
               onClick={handleLogout}
               disabled={loggingOut}
@@ -86,14 +101,23 @@ export default function Header({ usuario }: HeaderProps) {
                 </p>
               </div>
             </div>
-            <button
-              onClick={handleLogout}
-              disabled={loggingOut}
-              className="btn-secondary w-full"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Cerrar sesion
-            </button>
+            <div className="space-y-2">
+              <button
+                onClick={handleVolverMenu}
+                className="btn-secondary w-full"
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Volver al Menu Principal
+              </button>
+              <button
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="btn-secondary w-full"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Cerrar sesion
+              </button>
+            </div>
           </div>
         )}
       </div>

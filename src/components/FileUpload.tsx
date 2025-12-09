@@ -2,8 +2,8 @@
 
 import { useState, useRef } from 'react';
 import { Upload, FileSpreadsheet, X, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
-import type { TipoLiquidacion, ErrorValidacion } from '@/types/database';
-import { TIPOS_LIQUIDACION } from '@/types/database';
+import type { TipoLiquidacion, TipoPlanta, ErrorValidacion } from '@/types/database';
+import { TIPOS_LIQUIDACION, TIPOS_PLANTA } from '@/types/database';
 
 interface FileUploadProps {
   idColegio?: string;
@@ -14,6 +14,7 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
   const [file, setFile] = useState<File | null>(null);
   const [periodo, setPeriodo] = useState('');
   const [tipoLiquidacion, setTipoLiquidacion] = useState<TipoLiquidacion>('MENSUAL');
+  const [tipoPlanta, setTipoPlanta] = useState<TipoPlanta>('TITULAR');
   const [uploading, setUploading] = useState(false);
   const [result, setResult] = useState<{
     success: boolean;
@@ -62,6 +63,7 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
       formData.append('file', file);
       formData.append('periodo', periodo);
       formData.append('tipo_liquidacion', tipoLiquidacion);
+      formData.append('tipo_planta', tipoPlanta);
       if (idColegio) {
         formData.append('id_colegio', idColegio);
       }
@@ -133,8 +135,8 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
       <h2 className="text-lg font-semibold text-gray-900 mb-4">Cargar Preliquidacion</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Seleccion de periodo y tipo */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Seleccion de periodo, tipo y planta */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Periodo de Liquidacion *
@@ -162,6 +164,21 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
               className="w-full"
             >
               {TIPOS_LIQUIDACION.map(tipo => (
+                <option key={tipo.codigo} value={tipo.codigo}>{tipo.nombre}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Tipo de Planta *
+            </label>
+            <select
+              value={tipoPlanta}
+              onChange={(e) => setTipoPlanta(e.target.value as TipoPlanta)}
+              className="w-full"
+            >
+              {TIPOS_PLANTA.map(tipo => (
                 <option key={tipo.codigo} value={tipo.codigo}>{tipo.nombre}</option>
               ))}
             </select>
@@ -248,6 +265,16 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
             Descargar Plantilla
           </button>
         </div>
+
+        {/* Mensaje de ayuda cuando falta seleccionar algo */}
+        {(!periodo || !file) && !uploading && !result && (
+          <p className="text-xs text-red-600 flex items-center">
+            <AlertCircle className="h-3 w-3 mr-1" />
+            {!periodo && !file && 'Debe seleccionar un periodo y un archivo para poder subir'}
+            {!periodo && file && 'Debe seleccionar un periodo para poder subir el archivo'}
+            {periodo && !file && 'Debe seleccionar un archivo Excel para subir'}
+          </p>
+        )}
 
         {/* Resultado */}
         {result && (
