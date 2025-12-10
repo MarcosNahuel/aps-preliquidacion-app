@@ -3,9 +3,10 @@ import { createServerSupabaseClient } from '@/lib/supabase/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = await createServerSupabaseClient();
 
     const { data: { user } } = await supabase.auth.getUser();
@@ -30,7 +31,7 @@ export async function GET(
         colegio:aps_colegios(*),
         usuario:aps_usuarios(id, nombre, email)
       `)
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (error) {
@@ -46,7 +47,7 @@ export async function GET(
     const { data: liquidaciones } = await supabase
       .from('aps_liquidaciones_privadas')
       .select('*')
-      .eq('id_presentacion', params.id)
+      .eq('id_presentacion', id)
       .order('fila_excel');
 
     return NextResponse.json({
@@ -60,9 +61,10 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = await createServerSupabaseClient();
 
     const { data: { user } } = await supabase.auth.getUser();
@@ -84,7 +86,7 @@ export async function DELETE(
     const { data: presentacion } = await supabase
       .from('aps_presentaciones')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (!presentacion) {
@@ -108,7 +110,7 @@ export async function DELETE(
     const { error } = await supabase
       .from('aps_presentaciones')
       .delete()
-      .eq('id', params.id);
+      .eq('id', id);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
