@@ -19,7 +19,7 @@ function getTipoLiquidacionNombre(codigo: string | null): string {
 
 // Mapear codigo de tipo planta a nombre
 function getTipoPlantaNombre(codigo: string | null): string {
-  if (!codigo) return '';
+  if (!codigo) return 'Planta Titular'; // Valor por defecto para presentaciones antiguas
   const tipo = TIPOS_PLANTA.find(t => t.codigo === codigo);
   return tipo?.nombre || codigo;
 }

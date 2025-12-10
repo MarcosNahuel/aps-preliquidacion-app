@@ -6,7 +6,15 @@ import Header from '@/components/Header';
 import FileUpload from '@/components/FileUpload';
 import PresentacionesTable from '@/components/PresentacionesTable';
 import { Loader2, RefreshCw, CheckCircle, Clock } from 'lucide-react';
-import type { Usuario, Presentacion } from '@/types/database';
+import type { Usuario, Presentacion, NivelCodigo } from '@/types/database';
+import { NIVELES } from '@/types/database';
+
+// Helper para obtener nombre completo del nivel
+const getNivelNombre = (codigo: string | null | undefined): string => {
+  if (!codigo) return '';
+  const nivel = NIVELES.find(n => n.codigo === codigo);
+  return nivel?.nombre || codigo;
+};
 
 export default function ColegioPage() {
   const router = useRouter();
@@ -79,7 +87,7 @@ export default function ColegioPage() {
             {usuario.colegio?.nombre || `Colegio ${usuario.colegio?.codigo_nivel}-${usuario.colegio?.codigo_colegio}`}
           </h2>
           <p className="text-gray-600">
-            Nivel {usuario.colegio?.codigo_nivel} - Codigo {usuario.colegio?.codigo_colegio}
+            Nivel {getNivelNombre(usuario.colegio?.codigo_nivel)} ({usuario.colegio?.codigo_nivel}) - Codigo {usuario.colegio?.codigo_colegio}
             {usuario.colegio?.porcentaje_subsidio && (
               <span className="ml-2 text-primary-600">
                 ({usuario.colegio.porcentaje_subsidio}% subsidio)
