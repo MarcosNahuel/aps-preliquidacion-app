@@ -7,7 +7,14 @@ import FileUpload from '@/components/FileUpload';
 import PresentacionesTable from '@/components/PresentacionesTable';
 import { Loader2, RefreshCw, CheckCircle, Clock } from 'lucide-react';
 import type { Usuario, Presentacion, NivelCodigo } from '@/types/database';
-import { NIVELES } from '@/types/database';
+import { NIVELES, TIPOS_PLANTA } from '@/types/database';
+
+// Helper para obtener nombre del tipo de planta
+const getTipoPlantaNombre = (codigo: string | null | undefined): string => {
+  if (!codigo) return 'Planta Titular';
+  const tipo = TIPOS_PLANTA.find(t => t.codigo === codigo);
+  return tipo?.nombre || codigo;
+};
 
 // Helper para obtener nombre completo del nivel
 const getNivelNombre = (codigo: string | null | undefined): string => {
@@ -150,7 +157,8 @@ export default function ColegioPage() {
                       <thead className="bg-green-50">
                         <tr>
                           <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Periodo</th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tipo</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tipo Liq.</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Planta</th>
                           <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Filas</th>
                           <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Costo Bruto</th>
                           <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha Cierre</th>
@@ -165,6 +173,7 @@ export default function ColegioPage() {
                                 .toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}
                             </td>
                             <td className="px-4 py-3 text-sm text-gray-600">{pres.tipo_liquidacion}</td>
+                            <td className="px-4 py-3 text-sm text-gray-600">{getTipoPlantaNombre(pres.tipo_planta)}</td>
                             <td className="px-4 py-3 text-sm text-gray-900 text-right">{pres.total_filas}</td>
                             <td className="px-4 py-3 text-sm text-gray-900 text-right font-medium">
                               {formatMonto(pres.costo_total_presentado)}
@@ -185,7 +194,7 @@ export default function ColegioPage() {
                       </tbody>
                       <tfoot className="bg-green-100 border-t-2 border-green-300">
                         <tr>
-                          <td colSpan={3} className="px-4 py-3 text-sm font-bold text-gray-900">
+                          <td colSpan={4} className="px-4 py-3 text-sm font-bold text-gray-900">
                             TOTAL PRESENTACIONES CERRADAS
                           </td>
                           <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">

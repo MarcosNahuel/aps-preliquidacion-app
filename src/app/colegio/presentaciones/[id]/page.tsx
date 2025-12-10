@@ -10,7 +10,14 @@ import {
   Calendar, AlertCircle, Edit2, Save, X, Trash2, Check
 } from 'lucide-react';
 import type { Usuario, Presentacion } from '@/types/database';
-import { ESTADOS_PRESENTACION, TIPOS_LIQUIDACION } from '@/types/database';
+import { ESTADOS_PRESENTACION, TIPOS_LIQUIDACION, TIPOS_PLANTA } from '@/types/database';
+
+// Helper para obtener nombre del tipo de planta
+const getTipoPlantaNombre = (codigo: string | null | undefined): string => {
+  if (!codigo) return 'Planta Titular';
+  const tipo = TIPOS_PLANTA.find(t => t.codigo === codigo);
+  return tipo?.nombre || codigo;
+};
 
 interface Liquidacion {
   id: string;
@@ -242,7 +249,7 @@ export default function PresentacionDetailPage() {
                 Presentacion {formatPeriodo(presentacion.periodo)}
               </h1>
               <p className="text-gray-600">
-                {getTipoNombre(presentacion.tipo_liquidacion)}
+                {getTipoNombre(presentacion.tipo_liquidacion)} - {getTipoPlantaNombre(presentacion.tipo_planta)}
               </p>
             </div>
           </div>

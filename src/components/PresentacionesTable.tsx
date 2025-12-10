@@ -5,7 +5,21 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Eye, Lock, Trash2, Download, AlertCircle, Loader2 } from 'lucide-react';
 import type { Presentacion } from '@/types/database';
-import { ESTADOS_PRESENTACION, TIPOS_LIQUIDACION } from '@/types/database';
+import { ESTADOS_PRESENTACION, TIPOS_LIQUIDACION, NIVELES, TIPOS_PLANTA } from '@/types/database';
+
+// Helper para obtener nombre completo del nivel
+const getNivelNombre = (codigo: string | null | undefined): string => {
+  if (!codigo) return '';
+  const nivel = NIVELES.find(n => n.codigo === codigo);
+  return nivel?.nombre || codigo;
+};
+
+// Helper para obtener nombre del tipo de planta
+const getTipoPlantaNombre = (codigo: string | null | undefined): string => {
+  if (!codigo) return 'Planta Titular';
+  const tipo = TIPOS_PLANTA.find(t => t.codigo === codigo);
+  return tipo?.nombre || codigo;
+};
 
 interface PresentacionesTableProps {
   presentaciones: Presentacion[];
@@ -129,7 +143,10 @@ export default function PresentacionesTable({
                 Periodo
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Tipo
+                Tipo Liq.
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Planta
               </th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Estado
@@ -157,7 +174,10 @@ export default function PresentacionesTable({
                 <tr key={pres.id} className="hover:bg-gray-50">
                   {rol === 'AUDITOR' && (
                     <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {pres.colegio?.codigo_nivel}-{pres.colegio?.codigo_colegio}
+                      <div>
+                        <span className="font-medium">{pres.colegio?.codigo_nivel}-{pres.colegio?.codigo_colegio}</span>
+                        <span className="block text-xs text-gray-500">{getNivelNombre(pres.colegio?.codigo_nivel)}</span>
+                      </div>
                     </td>
                   )}
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -165,6 +185,9 @@ export default function PresentacionesTable({
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600">
                     {getTipoNombre(pres.tipo_liquidacion)}
+                  </td>
+                  <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600">
+                    {getTipoPlantaNombre(pres.tipo_planta)}
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap">
                     <span className={`badge ${estadoBadge.color}`}>

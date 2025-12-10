@@ -10,7 +10,21 @@ import {
   Calendar, AlertCircle, Building2
 } from 'lucide-react';
 import type { Usuario, Presentacion } from '@/types/database';
-import { ESTADOS_PRESENTACION, TIPOS_LIQUIDACION, TIPOS_PLANTA } from '@/types/database';
+import { ESTADOS_PRESENTACION, TIPOS_LIQUIDACION, TIPOS_PLANTA, NIVELES } from '@/types/database';
+
+// Helper para obtener nombre del tipo de planta
+const getTipoPlantaNombre = (codigo: string | null | undefined): string => {
+  if (!codigo) return 'Planta Titular';
+  const tipo = TIPOS_PLANTA.find(t => t.codigo === codigo);
+  return tipo?.nombre || codigo;
+};
+
+// Helper para obtener nombre completo del nivel
+const getNivelNombre = (codigo: string | null | undefined): string => {
+  if (!codigo) return '';
+  const nivel = NIVELES.find(n => n.codigo === codigo);
+  return nivel?.nombre || codigo;
+};
 
 interface Liquidacion {
   id: string;
@@ -194,7 +208,7 @@ export default function AuditorPresentacionDetailPage() {
             <Building2 className="h-6 w-6 text-green-600 mr-3" />
             <div>
               <p className="font-medium text-green-800">
-                Colegio: {colegioCode}
+                Colegio: {colegioCode} - {getNivelNombre(presentacion.colegio?.codigo_nivel)}
               </p>
               <p className="text-sm text-green-600">
                 {presentacion.colegio?.nombre || 'Sin nombre registrado'}
