@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import PresentacionesTable from '@/components/PresentacionesTable';
-import { Loader2, RefreshCw, Filter, Download, Building2, FileSpreadsheet, AlertCircle } from 'lucide-react';
-import type { Usuario, Presentacion, Colegio, NivelCodigo, TipoLiquidacion, EstadoPresentacion } from '@/types/database';
-import { NIVELES, TIPOS_LIQUIDACION, ESTADOS_PRESENTACION } from '@/types/database';
+import { Loader2, RefreshCw, Filter, Download, Building2, FileSpreadsheet, AlertCircle, X } from 'lucide-react';
+import type { Usuario, Presentacion, Colegio, NivelCodigo, TipoLiquidacion, EstadoPresentacion, TipoPlanta } from '@/types/database';
+import { NIVELES, TIPOS_LIQUIDACION, ESTADOS_PRESENTACION, TIPOS_PLANTA } from '@/types/database';
 
 export default function AuditorPage() {
   const router = useRouter();
@@ -22,6 +22,7 @@ export default function AuditorPage() {
   const [filtroPeriodo, setFiltroPeriodo] = useState('');
   const [filtroTipo, setFiltroTipo] = useState<TipoLiquidacion | ''>('');
   const [filtroEstado, setFiltroEstado] = useState<EstadoPresentacion | ''>('');
+  const [filtroTipoPlanta, setFiltroTipoPlanta] = useState<TipoPlanta | ''>('');
 
   // Descarga consolidada
   const [downloading, setDownloading] = useState(false);
@@ -35,7 +36,7 @@ export default function AuditorPage() {
     if (usuario) {
       fetchPresentaciones();
     }
-  }, [filtroNivel, filtroColegio, filtroPeriodo, filtroTipo, filtroEstado]);
+  }, [filtroNivel, filtroColegio, filtroPeriodo, filtroTipo, filtroEstado, filtroTipoPlanta]);
 
   const fetchSession = async () => {
     try {
@@ -104,6 +105,113 @@ export default function AuditorPage() {
     setFiltroPeriodo('');
     setFiltroTipo('');
     setFiltroEstado('');
+    setFiltroTipoPlanta('');
+  };
+
+  // Verificar si hay filtros activos
+  const hayFiltrosActivos = filtroNivel || filtroColegio || filtroPeriodo || filtroTipo || filtroEstado || filtroTipoPlanta;
+
+  // Obtener nombre del colegio por ID
+  const getNombreColegioFiltrado = () => {
+    const colegio = colegios.find(c => c.id === filtroColegio);
+    return colegio ? `${colegio.codigo_nivel}-${colegio.codigo_colegio}` : '';
+  };
+
+  // Generar chips de filtros activos
+  const getFiltrosActivos = () => {
+    const filtros: { label: string; value: string; onRemove: () => void }[] = [];
+
+    if (filtroNivel) {
+      const nivel = NIVELES.find(n => n.codigo === filtroNivel);
+      filtros.push({
+        label: 'Nivel',
+        value: nivel ? `${nivel.codigo} - ${nivel.nombre}` : filtroNivel,
+        onRemove: () => { setFiltroNivel(''); setFiltroColegio(''); }
+      });
+    }
+    if (filtroColegio) {
+      filtros.push({
+        label: 'Colegio',
+        value: getNombreColegioFiltrado(),
+        onRemove: () => setFiltroColegio('')
+      });
+    }
+    if (filtroPeriodo) {
+      const periodos = generarPeriodos();
+      const periodo = periodos.find(p => p.value === filtroPeriodo);
+      filtros.push({
+        label: 'Periodo',
+        value: periodo?.label || filtroPeriodo,
+        onRemove: () => setFiltroPeriodo('')
+      });
+    }
+    if (filtroTipo) {
+      const tipo = TIPOS_LIQUIDACION.find(t => t.codigo === filtroTipo);
+      filtros.push({
+        label: 'Tipo',
+        value: tipo?.nombre || filtroTipo,
+        onRemove: () => setFiltroTipo('')
+      });
+    }
+    if (filtroTipoPlanta) {
+      const planta = TIPOS_PLANTA.find(t => t.codigo === filtroTipoPlanta);
+      filtros.push({
+        label: 'Planta',
+        value: planta?.nombre || filtroTipoPlanta,
+        onRemove: () => setFiltroTipoPlanta('')
+      });
+    }
+    if (filtroEstado) {
+      const estado = ESTADOS_PRESENTACION.find(e => e.codigo === filtroEstado);
+      filtros.push({
+        label: 'Estado',
+        value: estado?.nombre || filtroEstado,
+        onRemove: () => setFiltroEstado('')
+      });
+    }
+
+    return filtros;
+  };
+
+  // Descargar consolidado
+  const handleDescargarConsolidado = async () => {
+    setDownloading(true);
+    setDownloadError(null);
+
+    try {
+      const params = new URLSearchParams();
+      if (filtroNivel) params.append('nivel', filtroNivel);
+      if (filtroColegio) params.append('id_colegio', filtroColegio);
+      if (filtroPeriodo) params.append('periodo', filtroPeriodo);
+      if (filtroTipo) params.append('tipo_liquidacion', filtroTipo);
+      if (filtroTipoPlanta) params.append('tipo_planta', filtroTipoPlanta);
+      if (filtroEstado) {
+        params.append('estado', filtroEstado);
+      } else {
+        params.append('estado', 'CERRADA'); // Por defecto solo cerradas
+      }
+
+      const response = await fetch(`/api/descargas/consolidado?${params.toString()}`);
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Error al descargar');
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = response.headers.get('Content-Disposition')?.split('filename=')[1]?.replace(/"/g, '') || 'consolidado.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error: any) {
+      setDownloadError(error.message || 'Error al descargar el consolidado');
+    } finally {
+      setDownloading(false);
+    }
   };
 
   // Generar periodos disponibles
@@ -199,15 +307,17 @@ export default function AuditorPage() {
               <Filter className="h-5 w-5 text-gray-500 mr-2" />
               <h3 className="font-medium text-gray-900">Filtros</h3>
             </div>
-            <button
-              onClick={limpiarFiltros}
-              className="text-sm text-primary-600 hover:text-primary-700"
-            >
-              Limpiar filtros
-            </button>
+            {hayFiltrosActivos && (
+              <button
+                onClick={limpiarFiltros}
+                className="text-sm text-primary-600 hover:text-primary-700"
+              >
+                Limpiar filtros
+              </button>
+            )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-1">Nivel</label>
               <select
@@ -256,7 +366,7 @@ export default function AuditorPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">Tipo</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Tipo Liq.</label>
               <select
                 value={filtroTipo}
                 onChange={(e) => setFiltroTipo(e.target.value as TipoLiquidacion | '')}
@@ -264,6 +374,20 @@ export default function AuditorPage() {
               >
                 <option value="">Todos</option>
                 {TIPOS_LIQUIDACION.map(t => (
+                  <option key={t.codigo} value={t.codigo}>{t.nombre}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Tipo Planta</label>
+              <select
+                value={filtroTipoPlanta}
+                onChange={(e) => setFiltroTipoPlanta(e.target.value as TipoPlanta | '')}
+                className="w-full text-sm"
+              >
+                <option value="">Todos</option>
+                {TIPOS_PLANTA.map(t => (
                   <option key={t.codigo} value={t.codigo}>{t.nombre}</option>
                 ))}
               </select>
@@ -281,6 +405,79 @@ export default function AuditorPage() {
                   <option key={e.codigo} value={e.codigo}>{e.nombre}</option>
                 ))}
               </select>
+            </div>
+          </div>
+
+          {/* Chips de filtros activos */}
+          {hayFiltrosActivos && (
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="flex items-center flex-wrap gap-2">
+                <span className="text-xs text-gray-500 mr-1">Filtros activos:</span>
+                {getFiltrosActivos().map((filtro, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800"
+                  >
+                    <span className="text-primary-600 mr-1">{filtro.label}:</span>
+                    {filtro.value}
+                    <button
+                      onClick={filtro.onRemove}
+                      className="ml-2 hover:text-primary-600 focus:outline-none"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Seccion de Descarga Consolidada */}
+        <div className="card mb-6 bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex items-start">
+              <div className="bg-green-100 p-2 rounded-lg mr-3">
+                <FileSpreadsheet className="h-6 w-6 text-green-600" />
+              </div>
+              <div>
+                <h3 className="font-medium text-gray-900">Descargar Base Consolidada para Expediente</h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  Descargue un Excel con todas las liquidaciones {filtroEstado === 'CERRADA' || !filtroEstado ? 'cerradas' : ''}
+                  {hayFiltrosActivos ? ' que coinciden con los filtros aplicados' : ' de todos los colegios'}.
+                  Incluye resumen, detalle de liquidaciones y totales por colegio para el tramite de subvencion.
+                </p>
+                {hayFiltrosActivos && (
+                  <p className="text-xs text-green-700 mt-2 font-medium">
+                    Se exportaran {stats.cerradas} presentaciones cerradas con los filtros actuales
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-col items-end gap-2">
+              <button
+                onClick={handleDescargarConsolidado}
+                disabled={downloading || stats.cerradas === 0}
+                className="btn-primary bg-green-600 hover:bg-green-700 disabled:bg-gray-400 whitespace-nowrap"
+              >
+                {downloading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Generando...
+                  </>
+                ) : (
+                  <>
+                    <Download className="h-4 w-4 mr-2" />
+                    Descargar Consolidado
+                  </>
+                )}
+              </button>
+              {downloadError && (
+                <div className="flex items-center text-red-600 text-xs">
+                  <AlertCircle className="h-3 w-3 mr-1" />
+                  {downloadError}
+                </div>
+              )}
             </div>
           </div>
         </div>

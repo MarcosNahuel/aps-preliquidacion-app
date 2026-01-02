@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 
 export async function GET() {
   try {
@@ -27,13 +28,37 @@ export async function GET() {
       return NextResponse.json({ user: null }, { status: 401 });
     }
 
+    // Para AUDITORES: verificar si hay un colegio seleccionado en cookies
+    let colegioData = userData.colegio;
+    let selectedColegioId: string | null = null;
+
+    if (userData.rol === 'AUDITOR') {
+      const cookieStore = await cookies();
+      selectedColegioId = cookieStore.get('selected_colegio_id')?.value || null;
+
+      if (selectedColegioId) {
+        // Obtener datos del colegio seleccionado
+        const { data: selectedColegio, error: colegioError } = await supabase
+          .from('aps_colegios')
+          .select('*')
+          .eq('id', selectedColegioId)
+          .eq('activo', true)
+          .single();
+
+        if (!colegioError && selectedColegio) {
+          colegioData = selectedColegio;
+        }
+      }
+    }
+
     return NextResponse.json({
       user: {
         id: userData.id,
         email: userData.email,
         nombre: userData.nombre,
         rol: userData.rol,
-        colegio: userData.colegio,
+        colegio: colegioData,
+        selectedColegioId: selectedColegioId,
         activo: userData.activo
       }
     });

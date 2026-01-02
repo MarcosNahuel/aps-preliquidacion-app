@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { Building2, LogOut, User, Menu, X, Home } from 'lucide-react';
+import { Building2, LogOut, User, Menu, X, RefreshCw } from 'lucide-react';
 import type { Usuario } from '@/types/database';
 
 interface HeaderProps {
@@ -22,11 +22,9 @@ export default function Header({ usuario }: HeaderProps) {
     router.push('/');
   };
 
-  const handleVolverMenu = async () => {
-    // Cerrar sesion y volver al menu de seleccion
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push('/');
+  const handleCambiarModo = () => {
+    // Solo para AUDITOR: volver a la seleccion de modo sin cerrar sesion
+    router.push('/seleccion-rol');
   };
 
   return (
@@ -60,14 +58,17 @@ export default function Header({ usuario }: HeaderProps) {
             <div className="flex items-center justify-center w-10 h-10 bg-primary-100 rounded-full">
               <User className="h-5 w-5 text-primary-600" />
             </div>
-            <button
-              onClick={handleVolverMenu}
-              className="btn-secondary text-sm"
-              title="Volver al menu de seleccion de acceso"
-            >
-              <Home className="h-4 w-4 mr-1" />
-              Menu
-            </button>
+            {/* Solo mostrar "Cambiar Modo" para AUDITOR */}
+            {usuario.rol === 'AUDITOR' && (
+              <button
+                onClick={handleCambiarModo}
+                className="btn-secondary text-sm"
+                title="Cambiar entre modo carga y auditoria"
+              >
+                <RefreshCw className="h-4 w-4 mr-1" />
+                Cambiar Modo
+              </button>
+            )}
             <button
               onClick={handleLogout}
               disabled={loggingOut}
@@ -102,13 +103,16 @@ export default function Header({ usuario }: HeaderProps) {
               </div>
             </div>
             <div className="space-y-2">
-              <button
-                onClick={handleVolverMenu}
-                className="btn-secondary w-full"
-              >
-                <Home className="h-4 w-4 mr-2" />
-                Volver al Menu Principal
-              </button>
+              {/* Solo mostrar "Cambiar Modo" para AUDITOR en mobile */}
+              {usuario.rol === 'AUDITOR' && (
+                <button
+                  onClick={handleCambiarModo}
+                  className="btn-secondary w-full"
+                >
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Cambiar Modo
+                </button>
+              )}
               <button
                 onClick={handleLogout}
                 disabled={loggingOut}

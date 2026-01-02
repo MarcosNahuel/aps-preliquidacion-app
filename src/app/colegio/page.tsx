@@ -44,8 +44,12 @@ export default function ColegioPage() {
         return;
       }
 
-      if (data.user.rol !== 'COLEGIO') {
-        router.push('/auditor');
+      // Permitir tanto COLEGIO como AUDITOR (modo carga)
+      // AUDITOR puede usar este modulo para cargar presentaciones
+
+      // Si es AUDITOR y no tiene colegio seleccionado, redirigir a seleccion
+      if (data.user.rol === 'AUDITOR' && !data.user.colegio) {
+        router.push('/seleccion-rol');
         return;
       }
 
