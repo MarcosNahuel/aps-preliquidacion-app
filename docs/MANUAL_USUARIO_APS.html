@@ -265,6 +265,7 @@
         <ol>
             <li><a href="#introduccion">Introduccion</a></li>
             <li><a href="#acceso">Acceso al Sistema</a></li>
+            <li><a href="#seleccion-rol">Seleccion de Modulo (Auditores)</a></li>
             <li><a href="#registro">Registro de Usuarios</a></li>
             <li><a href="#portal">Portal de Colegio</a></li>
             <li><a href="#carga">Carga de Preliquidaciones</a></li>
@@ -328,72 +329,48 @@
 
     <h2 id="acceso">2. Acceso al Sistema</h2>
 
-    <h3>Pantalla de Seleccion de Acceso</h3>
-    <p>Para acceder al sistema, ingrese a la URL proporcionada por la Direccion de Educacion Privada. La pantalla inicial presenta dos opciones de acceso claramente diferenciadas:</p>
+    <h3>Pantalla de Login Unificado</h3>
+    <p>Para acceder al sistema, ingrese a la URL proporcionada por la Direccion de Educacion Privada. El sistema cuenta con un <strong>login unificado</strong> donde todos los usuarios (colegios y auditores) ingresan sus credenciales en el mismo formulario.</p>
 
     <div class="screenshot">
-        <img src="screenshots/06-login-seleccion.png" alt="Pantalla de Seleccion">
-        <p class="screenshot-caption">Figura 1: Pantalla de seleccion de tipo de acceso</p>
+        <img src="screenshots/01_login_unificado.png" alt="Login Unificado">
+        <p class="screenshot-caption">Figura 1: Pantalla de login unificado del sistema</p>
     </div>
 
-    <h3>Tipos de Acceso</h3>
+    <h3>Proceso de Acceso</h3>
+    <div class="steps">
+        <ol>
+            <li><strong>Correo electronico:</strong> Ingrese el correo electronico registrado en el sistema</li>
+            <li><strong>Contrasena:</strong> Ingrese su contrasena</li>
+            <li>Haga clic en <strong>"Iniciar sesion"</strong></li>
+        </ol>
+    </div>
+
+    <h3>Redireccion Segun Rol</h3>
+    <p>Despues de iniciar sesion exitosamente, el sistema redirige automaticamente segun el rol del usuario:</p>
+
     <table>
         <tr>
-            <th>Tipo</th>
+            <th>Rol</th>
+            <th>Redireccion</th>
             <th>Descripcion</th>
-            <th>Usuarios</th>
         </tr>
         <tr>
-            <td><strong>Colegio</strong></td>
-            <td>Portal para instituciones educativas</td>
-            <td>Usuarios de colegios privados</td>
+            <td><strong>COLEGIO</strong></td>
+            <td>Portal de Colegio</td>
+            <td>Acceso directo al modulo de carga de preliquidaciones</td>
         </tr>
         <tr>
-            <td><strong>Administrador</strong></td>
-            <td>Panel de auditoria DGE</td>
-            <td>Auditores y personal administrativo</td>
+            <td><strong>AUDITOR</strong></td>
+            <td>Seleccion de Modulo</td>
+            <td>Pantalla para elegir entre modo carga o panel de auditoria</td>
         </tr>
     </table>
-
-    <h3>Acceso para Colegios</h3>
-    <p>Al seleccionar la opcion "Colegio", se mostrara el formulario de login con tema azul:</p>
-
-    <div class="screenshot">
-        <img src="screenshots/09-login-colegio.png" alt="Login Colegio">
-        <p class="screenshot-caption">Figura 2: Formulario de acceso para colegios</p>
-    </div>
-
-    <div class="steps">
-        <ol>
-            <li>Haga clic en el boton <strong>"Colegio"</strong> en la pantalla de seleccion</li>
-            <li><strong>Correo electronico:</strong> Ingrese el correo electronico registrado</li>
-            <li><strong>Contrasena:</strong> Ingrese su contrasena</li>
-            <li>Haga clic en <strong>"Iniciar sesion"</strong></li>
-        </ol>
-    </div>
-
-    <h3>Acceso para Administradores (Auditores DGE)</h3>
-    <p>Al seleccionar la opcion "Administrador", se mostrara el formulario de login con tema verde:</p>
-
-    <div class="screenshot">
-        <img src="screenshots/07-login-admin.png" alt="Login Administrador">
-        <p class="screenshot-caption">Figura 3: Formulario de acceso para administradores</p>
-    </div>
-
-    <div class="steps">
-        <ol>
-            <li>Haga clic en el boton <strong>"Administrador"</strong> en la pantalla de seleccion</li>
-            <li><strong>Correo electronico:</strong> Ingrese su correo institucional</li>
-            <li><strong>Contrasena:</strong> Ingrese su contrasena</li>
-            <li>Haga clic en <strong>"Iniciar sesion"</strong></li>
-        </ol>
-    </div>
 
     <h3>Opciones Adicionales</h3>
     <ul>
         <li><strong>Olvidaste tu contrasena?:</strong> Permite recuperar el acceso mediante correo electronico</li>
-        <li><strong>Volver a seleccionar tipo de acceso:</strong> Regresa a la pantalla de seleccion inicial</li>
-        <li><strong>Registrate aqui:</strong> Para crear una nueva cuenta de usuario (disponible en pantalla de seleccion)</li>
+        <li><strong>Registrate aqui:</strong> Para crear una nueva cuenta de usuario</li>
     </ul>
 
     <div class="info-box">
@@ -402,14 +379,57 @@
 
     <div class="page-break"></div>
 
-    <h2 id="registro">3. Registro de Usuarios</h2>
+    <h2 id="seleccion-rol">3. Seleccion de Modulo (Auditores)</h2>
+
+    <h3>Pantalla de Seleccion</h3>
+    <p>Los usuarios con rol <strong>AUDITOR</strong> son redirigidos a una pantalla de seleccion de modulo despues de iniciar sesion. Esta pantalla permite elegir entre dos modos de operacion:</p>
+
+    <div class="screenshot">
+        <img src="screenshots/02_seleccion_rol.png" alt="Seleccion de Modulo">
+        <p class="screenshot-caption">Figura 2: Pantalla de seleccion de modulo para auditores</p>
+    </div>
+
+    <h3>Modulos Disponibles</h3>
+    <table>
+        <tr>
+            <th>Modulo</th>
+            <th>Descripcion</th>
+            <th>Uso Principal</th>
+        </tr>
+        <tr>
+            <td><strong>Cargar Presentaciones</strong></td>
+            <td>Accede al portal de colegio en modo carga</td>
+            <td>Permite al auditor subir y gestionar presentaciones como si fuera un colegio (util para pruebas o carga de datos por cuenta de un colegio)</td>
+        </tr>
+        <tr>
+            <td><strong>Panel de Auditoria</strong></td>
+            <td>Accede al panel de control de auditoria</td>
+            <td>Permite revisar, auditar y gestionar todas las presentaciones de todos los colegios</td>
+        </tr>
+    </table>
+
+    <h3>Cambiar Entre Modulos</h3>
+    <p>Una vez dentro de cualquier modulo, los usuarios AUDITOR pueden cambiar de modulo utilizando el boton <strong>"Cambiar Modo"</strong> disponible en el encabezado de la pagina.</p>
+
+    <div class="screenshot">
+        <img src="screenshots/03_colegio_auditor_cambiar_modo.png" alt="Boton Cambiar Modo">
+        <p class="screenshot-caption">Figura 3: Boton "Cambiar Modo" visible para usuarios AUDITOR</p>
+    </div>
+
+    <div class="info-box">
+        <strong>Nota:</strong> El boton "Cambiar Modo" solo es visible para usuarios con rol AUDITOR. Los usuarios de colegio no ven esta opcion.
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2 id="registro">4. Registro de Usuarios</h2>
 
     <h3>Pantalla de Registro</h3>
     <p>Si no tiene una cuenta, puede registrarse haciendo clic en "Registrate aqui" desde la pantalla de login.</p>
 
     <div class="screenshot">
         <img src="screenshots/02-registro.png" alt="Pantalla de Registro">
-        <p class="screenshot-caption">Figura 2: Formulario de registro de nuevos usuarios</p>
+        <p class="screenshot-caption">Figura 4: Formulario de registro de nuevos usuarios</p>
     </div>
 
     <h3>Proceso de Registro para Colegios</h3>
@@ -439,14 +459,14 @@
 
     <div class="page-break"></div>
 
-    <h2 id="portal">4. Portal de Colegio</h2>
+    <h2 id="portal">5. Portal de Colegio</h2>
 
     <h3>Dashboard Principal</h3>
     <p>Una vez iniciada la sesion como usuario de colegio, accede al dashboard principal donde puede gestionar todas sus preliquidaciones.</p>
 
     <div class="screenshot">
-        <img src="screenshots/03-dashboard-colegio.png" alt="Dashboard de Colegio">
-        <p class="screenshot-caption">Figura 3: Dashboard principal del portal de colegio</p>
+        <img src="screenshots/04_colegio_formulario_carga.png" alt="Dashboard de Colegio">
+        <p class="screenshot-caption">Figura 5: Dashboard principal del portal de colegio</p>
     </div>
 
     <h3>Elementos del Dashboard</h3>
@@ -476,13 +496,13 @@
 
     <div class="page-break"></div>
 
-    <h2 id="carga">5. Carga de Preliquidaciones</h2>
+    <h2 id="carga">6. Carga de Preliquidaciones</h2>
 
     <h3>Formulario de Carga</h3>
 
     <div class="screenshot">
-        <img src="screenshots/05-formulario-carga.png" alt="Formulario de Carga">
-        <p class="screenshot-caption">Figura 4: Formulario para cargar preliquidaciones</p>
+        <img src="screenshots/04_colegio_formulario_carga.png" alt="Formulario de Carga">
+        <p class="screenshot-caption">Figura 6: Formulario para cargar preliquidaciones</p>
     </div>
 
     <h3>Pasos para Cargar una Preliquidacion</h3>
@@ -503,11 +523,11 @@
             <td>Liquidacion regular del mes</td>
         </tr>
         <tr>
-            <td>Aguinaldo 1er Semestre</td>
+            <td>Aguinaldo 1er Semestre (1er SAC)</td>
             <td>SAC correspondiente al primer semestre</td>
         </tr>
         <tr>
-            <td>Aguinaldo 2do Semestre</td>
+            <td>Aguinaldo 2do Semestre (2do SAC)</td>
             <td>SAC correspondiente al segundo semestre</td>
         </tr>
         <tr>
@@ -518,29 +538,39 @@
             <td>Rectificativa</td>
             <td>Correccion de una liquidacion anterior</td>
         </tr>
+    </table>
+
+    <h4>Paso 3: Seleccionar Tipo de Planta</h4>
+    <p>Seleccione el tipo de planta correspondiente al personal que se esta liquidando:</p>
+
+    <table>
         <tr>
-            <td>Liquidacion Docente</td>
-            <td>Especifica para personal docente</td>
+            <th>Tipo de Planta</th>
+            <th>Descripcion</th>
         </tr>
         <tr>
-            <td>Suplencias - Licencias sin Goce</td>
-            <td>Para personal en suplencia por licencias</td>
+            <td>Planta Titular</td>
+            <td>Personal con cargo titular en el establecimiento</td>
         </tr>
         <tr>
-            <td>Suplencias - Enfermedad/Maternidad</td>
-            <td>Para suplencias por enfermedad o maternidad</td>
+            <td>Suplentes</td>
+            <td>Personal en caracter de suplente</td>
         </tr>
         <tr>
-            <td>Maestranza SUTE</td>
-            <td>Personal de maestranza afiliado a SUTE</td>
+            <td>Maestranza</td>
+            <td>Personal de maestranza y servicios</td>
         </tr>
         <tr>
-            <td>Maestranza SOEME</td>
-            <td>Personal de maestranza afiliado a SOEME</td>
+            <td>Licencia</td>
+            <td>Personal en situacion de licencia</td>
         </tr>
     </table>
 
-    <h4>Paso 3: Descargar Plantilla</h4>
+    <div class="info-box">
+        <strong>Importante:</strong> Cada tipo de planta debe cargarse en una presentacion separada. Por ejemplo, si tiene personal titular y suplente, debera realizar dos cargas diferentes.
+    </div>
+
+    <h4>Paso 4: Descargar Plantilla</h4>
     <p>Antes de cargar su archivo, descargue la plantilla oficial haciendo clic en <strong>"Descargar Plantilla"</strong>.</p>
 
     <div class="info-box">
@@ -552,7 +582,7 @@
         </ul>
     </div>
 
-    <h4>Paso 4: Preparar el Archivo Excel</h4>
+    <h4>Paso 5: Preparar el Archivo Excel</h4>
     <p>Complete la plantilla con los datos de su liquidacion siguiendo estas reglas:</p>
 
     <table>
@@ -598,7 +628,7 @@
         </tr>
     </table>
 
-    <h4>Paso 5: Subir el Archivo</h4>
+    <h4>Paso 6: Subir el Archivo</h4>
     <div class="steps">
         <ol>
             <li>Arrastre el archivo Excel al area indicada, o haga clic para seleccionarlo</li>
@@ -635,14 +665,14 @@
 
     <div class="page-break"></div>
 
-    <h2 id="gestion">6. Gestion de Presentaciones</h2>
+    <h2 id="gestion">7. Gestion de Presentaciones</h2>
 
     <h3>Detalle de Presentacion</h3>
     <p>Haga clic en <strong>"Ver detalle"</strong> para acceder a la informacion completa de una presentacion.</p>
 
     <div class="screenshot">
-        <img src="screenshots/04-detalle-presentacion.png" alt="Detalle de Presentacion">
-        <p class="screenshot-caption">Figura 5: Vista detallada de una presentacion</p>
+        <img src="screenshots/06_detalle_presentacion.png" alt="Detalle de Presentacion">
+        <p class="screenshot-caption">Figura 7: Vista detallada de una presentacion</p>
     </div>
 
     <h4>Informacion General</h4>
@@ -696,23 +726,18 @@
 
     <div class="page-break"></div>
 
-    <h2 id="auditoria">7. Panel de Auditoria</h2>
+    <h2 id="auditoria">8. Panel de Auditoria</h2>
 
     <h3>Acceso al Panel</h3>
-    <p>Los usuarios con rol <strong>AUDITOR</strong> acceden automaticamente al Panel de Auditoria al iniciar sesion seleccionando la opcion "Administrador" en la pantalla inicial.</p>
+    <p>Los usuarios con rol <strong>AUDITOR</strong> acceden al Panel de Auditoria seleccionando la opcion "Panel de Auditoria" en la pantalla de seleccion de modulo (ver seccion 3).</p>
 
     <div class="screenshot">
-        <img src="screenshots/10-auditor-panel-completo.png" alt="Panel de Auditoria Completo">
-        <p class="screenshot-caption">Figura 10: Vista completa del Panel de Auditoria</p>
+        <img src="screenshots/05_panel_auditoria.png" alt="Panel de Auditoria Completo">
+        <p class="screenshot-caption">Figura 8: Vista completa del Panel de Auditoria</p>
     </div>
 
     <h3>Vista General del Panel</h3>
     <p>El panel de auditoria proporciona una vista completa de todas las presentaciones de todos los colegios del sistema, permitiendo un control centralizado de las preliquidaciones.</p>
-
-    <div class="screenshot">
-        <img src="screenshots/11-auditor-estadisticas.png" alt="Estadisticas del Panel">
-        <p class="screenshot-caption">Figura 11: Estadisticas y filtros del Panel de Auditoria</p>
-    </div>
 
     <h3>Funcionalidades del Panel de Auditoria</h3>
 
@@ -753,12 +778,6 @@
     </table>
 
     <h4>Sistema de Filtros Avanzados</h4>
-
-    <div class="screenshot">
-        <img src="screenshots/12-auditor-filtros.png" alt="Filtros del Panel">
-        <p class="screenshot-caption">Figura 12: Sistema de filtros avanzados</p>
-    </div>
-
     <p>Los auditores disponen de un completo sistema de filtros para encontrar presentaciones especificas:</p>
 
     <table>
@@ -769,8 +788,8 @@
         </tr>
         <tr>
             <td><strong>Nivel</strong></td>
-            <td>Nivel educativo del colegio</td>
-            <td>P (Primario), PE (Especial), PP (Primario Especial), PS (Secundario), PT (Terciario)</td>
+            <td>Nivel educativo del colegio (muestra nombre completo)</td>
+            <td>P - Primario, PE - Especial, PP - Primario Especial, PS - Secundario, PT - Terciario</td>
         </tr>
         <tr>
             <td><strong>Colegio</strong></td>
@@ -877,7 +896,7 @@
 
     <div class="page-break"></div>
 
-    <h2 id="faq">8. Preguntas Frecuentes</h2>
+    <h2 id="faq">9. Preguntas Frecuentes</h2>
 
     <h3>Sobre el Acceso</h3>
 
@@ -916,7 +935,7 @@
 
     <div class="page-break"></div>
 
-    <h2 id="anexo">9. Anexo Tecnico</h2>
+    <h2 id="anexo">10. Anexo Tecnico</h2>
 
     <h3>Ambiente de Demostracion</h3>
     <p>Este sistema se encuentra actualmente en <strong>ambiente de demostracion</strong> con fines de desarrollo y pruebas. La infraestructura utilizada es temporal y esta diseñada para validar el funcionamiento del sistema antes de su implementacion en produccion.</p>
@@ -1062,10 +1081,10 @@
         <p>Direccion General de Escuelas - Educacion Privada<br>
         Email: soporte@dge.mendoza.gov.ar</p>
         <br>
-        <p><em>Documento generado automaticamente - Version 1.0</em><br>
+        <p><em>Documento generado automaticamente - Version 2.0</em><br>
         <em>PRELIQ-DGE - Sistema de Preliquidaciones Colegios Privados</em><br>
         <em>Direccion General de Escuelas - Mendoza</em><br>
-        <em>Ambiente de Demostracion - Diciembre 2024</em></p>
+        <em>Ambiente de Demostracion - Diciembre 2025</em></p>
         <br>
         <p style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
             <strong>Desarrollado por:</strong><br>

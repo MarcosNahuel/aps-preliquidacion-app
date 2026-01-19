@@ -28,6 +28,8 @@ export async function GET(request: NextRequest) {
     const tipoLiquidacion = searchParams.get('tipo_liquidacion');
     const periodo = searchParams.get('periodo');
     const nivel = searchParams.get('nivel');
+    const idColegio = searchParams.get('id_colegio');
+    const tipoPlanta = searchParams.get('tipo_planta');
     const estado = searchParams.get('estado') || 'CERRADA'; // Por defecto solo cerradas
 
     // Construir query para presentaciones
@@ -37,6 +39,7 @@ export async function GET(request: NextRequest) {
         id,
         periodo,
         tipo_liquidacion,
+        tipo_planta,
         estado,
         total_filas,
         costo_total_presentado,
@@ -51,6 +54,12 @@ export async function GET(request: NextRequest) {
     }
     if (periodo) {
       query = query.eq('periodo', periodo);
+    }
+    if (idColegio) {
+      query = query.eq('id_colegio', idColegio);
+    }
+    if (tipoPlanta) {
+      query = query.eq('tipo_planta', tipoPlanta);
     }
 
     const { data: presentaciones, error: presError } = await query.order('periodo', { ascending: false });

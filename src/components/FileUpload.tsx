@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { Upload, FileSpreadsheet, X, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
+import { Upload, FileSpreadsheet, X, AlertCircle, CheckCircle, Loader2, FileUp } from 'lucide-react';
 import type { TipoLiquidacion, TipoPlanta, ErrorValidacion } from '@/types/database';
 import { TIPOS_LIQUIDACION, TIPOS_PLANTA } from '@/types/database';
 
@@ -16,6 +16,7 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
   const [tipoLiquidacion, setTipoLiquidacion] = useState<TipoLiquidacion>('MENSUAL');
   const [tipoPlanta, setTipoPlanta] = useState<TipoPlanta>('TITULAR');
   const [uploading, setUploading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [result, setResult] = useState<{
     success: boolean;
     mensaje: string;
@@ -26,6 +27,7 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
   } | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const dropZoneRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -35,8 +37,32 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
     }
   };
 
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // Solo desactivar si salimos del dropzone (no de un hijo)
+    if (dropZoneRef.current && !dropZoneRef.current.contains(e.relatedTarget as Node)) {
+      setIsDragging(false);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isDragging) setIsDragging(true);
+  };
+
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
     const droppedFile = e.dataTransfer.files[0];
     if (droppedFile && droppedFile.name.endsWith('.xlsx')) {
       setFile(droppedFile);
@@ -138,14 +164,23 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
         {/* Seleccion de periodo, tipo y planta */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className={`block text-sm font-medium mb-1 transition-colors ${
+              !periodo && file ? 'text-red-600' : 'text-gray-700'
+            }`}>
               Periodo de Liquidacion *
+              {!periodo && file && (
+                <span className="ml-2 text-xs font-normal animate-pulse">← Requerido</span>
+              )}
             </label>
             <select
               value={periodo}
               onChange={(e) => setPeriodo(e.target.value)}
               required
-              className="w-full"
+              className={`w-full transition-all ${
+                !periodo && file
+                  ? 'ring-2 ring-red-400 border-red-400 animate-pulse'
+                  : ''
+              }`}
             >
               <option value="">Seleccione un periodo</option>
               {generarPeriodos().map(p => (
@@ -185,22 +220,44 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
           </div>
         </div>
 
-        {/* Area de carga de archivo */}
+        {/* Area de carga de archivo - Mejorada */}
         <div
-          className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${
-            file ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-gray-400'
-          }`}
-          onDragOver={(e) => e.preventDefault()}
+          ref={dropZoneRef}
+          className={`
+            relative rounded-xl p-8 text-center cursor-pointer
+            transition-all duration-200 ease-in-out
+            ${file
+              ? 'bg-primary-50 border-2 border-primary-400'
+              : isDragging
+                ? 'bg-primary-100 border-3 border-primary-500 border-dashed scale-[1.02] shadow-lg'
+                : 'bg-gradient-to-b from-gray-50 to-gray-100 border-2 border-dashed border-gray-300 hover:border-primary-400 hover:bg-primary-50/50'
+            }
+          `}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
           onDrop={handleDrop}
           onClick={() => !file && fileInputRef.current?.click()}
         >
+          {/* Indicador visual cuando se arrastra */}
+          {isDragging && (
+            <div className="absolute inset-0 bg-primary-500/10 rounded-xl flex items-center justify-center z-10 pointer-events-none">
+              <div className="bg-white rounded-lg shadow-xl px-6 py-4 flex items-center space-x-3 animate-pulse">
+                <FileUp className="h-8 w-8 text-primary-600" />
+                <span className="text-lg font-semibold text-primary-700">Soltar archivo aqui</span>
+              </div>
+            </div>
+          )}
+
           {file ? (
-            <div className="flex items-center justify-center space-x-3">
-              <FileSpreadsheet className="h-10 w-10 text-primary-600" />
+            <div className="flex items-center justify-center space-x-4">
+              <div className="bg-primary-100 rounded-lg p-3">
+                <FileSpreadsheet className="h-10 w-10 text-primary-600" />
+              </div>
               <div className="text-left">
-                <p className="font-medium text-gray-900">{file.name}</p>
+                <p className="font-semibold text-gray-900">{file.name}</p>
                 <p className="text-sm text-gray-500">
-                  {(file.size / 1024).toFixed(1)} KB
+                  {(file.size / 1024).toFixed(1)} KB - Listo para subir
                 </p>
               </div>
               <button
@@ -210,21 +267,35 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
                   setFile(null);
                   if (fileInputRef.current) fileInputRef.current.value = '';
                 }}
-                className="p-1 hover:bg-gray-200 rounded"
+                className="p-2 hover:bg-red-100 rounded-full transition-colors"
+                title="Quitar archivo"
               >
-                <X className="h-5 w-5 text-gray-500" />
+                <X className="h-5 w-5 text-red-500" />
               </button>
             </div>
           ) : (
-            <>
-              <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 mb-2">
-                Arrastre el archivo Excel aqui o haga clic para seleccionar
-              </p>
-              <p className="text-sm text-gray-500">
-                Solo archivos .xlsx (Excel 2007 o superior)
-              </p>
-            </>
+            <div className="space-y-4">
+              {/* Icono grande y llamativo */}
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary-100 mx-auto">
+                <Upload className="h-10 w-10 text-primary-600" />
+              </div>
+
+              {/* Texto principal */}
+              <div>
+                <p className="text-lg font-medium text-gray-700 mb-1">
+                  Arrastre su archivo Excel aqui
+                </p>
+                <p className="text-sm text-gray-500">
+                  o <span className="text-primary-600 font-medium hover:underline">haga clic para seleccionar</span>
+                </p>
+              </div>
+
+              {/* Badge de formato */}
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-medium">
+                <FileSpreadsheet className="h-3.5 w-3.5 mr-1.5" />
+                Solo archivos .xlsx (Excel 2007+)
+              </div>
+            </div>
           )}
 
           <input
