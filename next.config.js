@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['exceljs']
-  }
+  serverExternalPackages: ['exceljs']
 }
 
 module.exports = nextConfig

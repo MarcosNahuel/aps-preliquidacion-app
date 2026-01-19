@@ -4,9 +4,10 @@ import { createServerSupabaseClient } from '@/lib/supabase/server';
 // PUT - Actualizar una liquidacion
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = await createServerSupabaseClient();
 
     const { data: { user } } = await supabase.auth.getUser();
@@ -28,7 +29,7 @@ export async function PUT(
     const { data: liquidacion, error: fetchError } = await supabase
       .from('aps_liquidaciones_privadas')
       .select('*, presentacion:aps_presentaciones(*)')
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (fetchError || !liquidacion) {
@@ -90,7 +91,7 @@ export async function PUT(
     const { data: updated, error: updateError } = await supabase
       .from('aps_liquidaciones_privadas')
       .update(datosActualizar)
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single();
 
@@ -130,9 +131,10 @@ export async function PUT(
 // DELETE - Eliminar una liquidacion
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const supabase = await createServerSupabaseClient();
 
     const { data: { user } } = await supabase.auth.getUser();
@@ -154,7 +156,7 @@ export async function DELETE(
     const { data: liquidacion } = await supabase
       .from('aps_liquidaciones_privadas')
       .select('*, presentacion:aps_presentaciones(*)')
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (!liquidacion) {
@@ -180,7 +182,7 @@ export async function DELETE(
     const { error: deleteError } = await supabase
       .from('aps_liquidaciones_privadas')
       .delete()
-      .eq('id', params.id);
+      .eq('id', id);
 
     if (deleteError) {
       return NextResponse.json({ error: deleteError.message }, { status: 500 });
