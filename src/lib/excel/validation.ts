@@ -69,9 +69,10 @@ export async function validarEstructura(buffer: ArrayBuffer | Buffer): Promise<R
       }
     }
 
-    // Verificar que no haya columnas adicionales
+    // Verificar que no haya columnas adicionales (permitir columna "ERRORES")
     for (const encabezado of encabezadosArchivo) {
       if (!encabezado) continue;
+      if (encabezado.trim().toLowerCase() === 'errores') continue;
       const esEsperada = columnasEsperadas.some(
         col => col.toLowerCase() === encabezado.toLowerCase()
       );
@@ -82,10 +83,13 @@ export async function validarEstructura(buffer: ArrayBuffer | Buffer): Promise<R
 
     // Verificar orden de columnas
     if (erroresColumnas.length === 0) {
+      const encabezadosSinErrores = encabezadosArchivo.filter(
+        enc => enc && enc.trim().toLowerCase() !== 'errores'
+      );
       for (let i = 0; i < columnasEsperadas.length; i++) {
-        if (encabezadosArchivo[i]?.toLowerCase() !== columnasEsperadas[i].toLowerCase()) {
+        if (encabezadosSinErrores[i]?.toLowerCase() !== columnasEsperadas[i].toLowerCase()) {
           erroresColumnas.push(
-            `Columna ${i + 1}: se esperaba "${columnasEsperadas[i]}" pero se encontro "${encabezadosArchivo[i] || '(vacio)'}"`
+            `Columna ${i + 1}: se esperaba "${columnasEsperadas[i]}" pero se encontro "${encabezadosSinErrores[i] || '(vacio)'}"`
           );
         }
       }
