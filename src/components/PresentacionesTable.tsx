@@ -256,7 +256,7 @@ export default function PresentacionesTable({
                             <>
                               <button
                                 onClick={() => handleCerrar(pres.id)}
-                                className="inline-flex items-center px-2 py-1 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded shadow-sm transition-all animate-pulse hover:animate-none"
+                                className="inline-flex items-center px-2 py-1 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded shadow-sm transition-colors"
                                 title="Cerrar presentacion"
                               >
                                 <Lock className="h-3.5 w-3.5 mr-1" />

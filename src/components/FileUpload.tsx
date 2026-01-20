@@ -176,9 +176,9 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
               value={periodo}
               onChange={(e) => setPeriodo(e.target.value)}
               required
-              className={`w-full transition-all ${
+              className={`w-full ${
                 !periodo && file
-                  ? 'ring-2 ring-red-400 border-red-400 animate-pulse'
+                  ? 'ring-2 ring-red-400 border-red-400'
                   : ''
               }`}
             >
