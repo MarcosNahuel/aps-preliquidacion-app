@@ -419,7 +419,7 @@ export async function extraerDatos(buffer: ArrayBuffer | Buffer): Promise<DatosE
       item_arraigo: getNumberValue('item_arraigo'),
       adicional_directivo: getNumberValue('adicional_directivo'),
       otros_adicionales: getNumberValue('otros_adicionales'),
-      total_remunerativo: getNumberValue('total_remunerativo'),
+      total_remunerativo: getNumberValue('sueldo_bruto_total'),
       jubilacion: getNumberValue('jubilacion'),
       obra_social: getNumberValue('obra_social'),
       sindicato: getNumberValue('sindicato'),
