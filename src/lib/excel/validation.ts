@@ -3,7 +3,8 @@ import {
   COLUMNAS_PLANTILLA,
   NOMBRE_HOJA_ESPERADO,
   NIVELES_VALIDOS,
-  getNombresColumnasEsperados
+  getNombresColumnasEsperados,
+  mapearColumnaACampo
 } from './columns';
 import type { ErrorValidacion, ResultadoValidacion, DatosExcelFila } from '@/types/database';
 
@@ -359,17 +360,15 @@ export async function extraerDatos(buffer: ArrayBuffer | Buffer): Promise<DatosE
   const hoja = workbook.getWorksheet(NOMBRE_HOJA_ESPERADO)!;
   const datos: DatosExcelFila[] = [];
 
-  // Obtener indices de columnas
+  // Obtener indices de columnas usando mapearColumnaACampo que normaliza whitespace
   const primeraFila = hoja.getRow(1);
   const indiceColumnas: { [key: string]: number } = {};
 
   primeraFila.eachCell({ includeEmpty: false }, (cell, colNumber) => {
-    const nombre = String(cell.value || '').trim().toLowerCase();
-    for (const col of COLUMNAS_PLANTILLA) {
-      if (col.nombre.toLowerCase() === nombre) {
-        indiceColumnas[col.campo] = colNumber;
-        break;
-      }
+    const nombreColumna = String(cell.value || '').trim();
+    const campo = mapearColumnaACampo(nombreColumna);
+    if (campo) {
+      indiceColumnas[campo] = colNumber;
     }
   });
 

@@ -176,8 +176,10 @@ export async function POST(request: NextRequest) {
     // Extraer datos
     const datosExcel = await extraerDatos(buffer);
 
-    // Calcular costo total
-    const costoTotal = datosExcel.reduce((sum, fila) => sum + (fila.total_remunerativo || 0), 0);
+    // Calcular costo total (usar total_remunerativo, fallback a sueldo_neto si no existe)
+    const costoTotal = datosExcel.reduce((sum, fila) => {
+      return sum + (fila.total_remunerativo || fila.sueldo_neto || 0);
+    }, 0);
 
     // Crear presentacion
     const { data: presentacion, error: presentacionError } = await supabase
