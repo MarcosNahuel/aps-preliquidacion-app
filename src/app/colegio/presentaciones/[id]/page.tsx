@@ -10,7 +10,7 @@ import {
   Calendar, AlertCircle, Edit2, Save, X, Trash2, Check
 } from 'lucide-react';
 import type { Usuario, Presentacion } from '@/types/database';
-import { ESTADOS_PRESENTACION, TIPOS_LIQUIDACION, TIPOS_PLANTA } from '@/types/database';
+import { ESTADOS_PRESENTACION, TIPOS_PLANTA, getTipoLiquidacionNombre } from '@/types/database';
 
 // Helper para obtener nombre del tipo de planta
 const getTipoPlantaNombre = (codigo: string | null | undefined): string => {
@@ -22,11 +22,12 @@ const getTipoPlantaNombre = (codigo: string | null | undefined): string => {
 interface Liquidacion {
   id: string;
   legajo: string;
-  apellido_nombres: string;
+  apellido: string | null;
+  nombres: string | null;
   cuil: string;
   cargo: string;
   horas: number;
-  sueldo_bruto: number;
+  total_remunerativo: number;
   sueldo_neto: number;
   item_arraigo: number;
 }
@@ -101,10 +102,7 @@ export default function PresentacionDetailPage() {
     return config || { nombre: estado, color: 'bg-gray-100 text-gray-800' };
   };
 
-  const getTipoNombre = (tipo: string) => {
-    const config = TIPOS_LIQUIDACION.find(t => t.codigo === tipo);
-    return config?.nombre || tipo;
-  };
+  const getTipoNombre = (tipo: string) => getTipoLiquidacionNombre(tipo);
 
   const formatMonto = (monto: number | null | undefined) => {
     if (monto === null || monto === undefined) return '-';
@@ -112,6 +110,13 @@ export default function PresentacionDetailPage() {
       style: 'currency',
       currency: 'ARS'
     }).format(monto);
+  };
+
+  const formatCuil = (cuil: string | null | undefined): string => {
+    if (!cuil) return '-';
+    const digits = String(cuil).replace(/\D/g, '');
+    if (digits.length === 11) return `${digits.slice(0, 2)}-${digits.slice(2, 10)}-${digits.slice(10)}`;
+    return cuil;
   };
 
   // Funciones de edicion
@@ -225,7 +230,7 @@ export default function PresentacionDetailPage() {
   const estadoBadge = getEstadoBadge(presentacion.estado);
 
   // Calcular totales
-  const totalBruto = liquidaciones.reduce((sum, liq) => sum + (liq.sueldo_bruto || 0), 0);
+  const totalBruto = liquidaciones.reduce((sum, liq) => sum + (liq.total_remunerativo || 0), 0);
   const totalNeto = liquidaciones.reduce((sum, liq) => sum + (liq.sueldo_neto || 0), 0);
   const totalArraigo = liquidaciones.reduce((sum, liq) => sum + (liq.item_arraigo || 0), 0);
   const totalHoras = liquidaciones.reduce((sum, liq) => sum + (liq.horas || 0), 0);
@@ -299,7 +304,7 @@ export default function PresentacionDetailPage() {
             <div>
               <p className="text-sm text-gray-600">Costo Total</p>
               <p className="text-xl font-bold text-gray-900">
-                {formatMonto(totalBruto)}
+                {formatMonto(presentacion.costo_total_presentado || totalBruto)}
               </p>
             </div>
           </div>
@@ -425,7 +430,10 @@ export default function PresentacionDetailPage() {
                       Legajo
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Nombre
+                      Apellido
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Nombres
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                       CUIL
@@ -532,17 +540,31 @@ export default function PresentacionDetailPage() {
                         )}
                       </td>
 
-                      {/* Nombre */}
+                      {/* Apellido */}
                       <td className="px-4 py-3 text-sm text-gray-900">
                         {editingId === liq.id ? (
                           <input
                             type="text"
-                            value={editData.apellido_nombres || ''}
-                            onChange={(e) => handleEditChange('apellido_nombres', e.target.value)}
-                            className="w-40 px-2 py-1 text-sm border rounded"
+                            value={editData.apellido || ''}
+                            onChange={(e) => handleEditChange('apellido', e.target.value)}
+                            className="w-32 px-2 py-1 text-sm border rounded"
                           />
                         ) : (
-                          liq.apellido_nombres
+                          liq.apellido || '-'
+                        )}
+                      </td>
+
+                      {/* Nombres */}
+                      <td className="px-4 py-3 text-sm text-gray-900">
+                        {editingId === liq.id ? (
+                          <input
+                            type="text"
+                            value={editData.nombres || ''}
+                            onChange={(e) => handleEditChange('nombres', e.target.value)}
+                            className="w-32 px-2 py-1 text-sm border rounded"
+                          />
+                        ) : (
+                          liq.nombres || '-'
                         )}
                       </td>
 
@@ -556,7 +578,7 @@ export default function PresentacionDetailPage() {
                             className="w-28 px-2 py-1 text-sm border rounded"
                           />
                         ) : (
-                          liq.cuil
+                          formatCuil(liq.cuil)
                         )}
                       </td>
 
@@ -588,17 +610,17 @@ export default function PresentacionDetailPage() {
                         )}
                       </td>
 
-                      {/* Bruto */}
+                      {/* Bruto (Total Remunerativo) */}
                       <td className="px-4 py-3 text-sm text-gray-900 text-right">
                         {editingId === liq.id ? (
                           <input
                             type="number"
-                            value={editData.sueldo_bruto || 0}
-                            onChange={(e) => handleEditChange('sueldo_bruto', parseFloat(e.target.value) || 0)}
+                            value={editData.total_remunerativo || 0}
+                            onChange={(e) => handleEditChange('total_remunerativo', parseFloat(e.target.value) || 0)}
                             className="w-24 px-2 py-1 text-sm border rounded text-right"
                           />
                         ) : (
-                          formatMonto(liq.sueldo_bruto)
+                          formatMonto(liq.total_remunerativo)
                         )}
                       </td>
 
@@ -635,7 +657,7 @@ export default function PresentacionDetailPage() {
                 <tfoot className="bg-gray-100 border-t-2 border-gray-300">
                   <tr>
                     {puedeEditar && <td></td>}
-                    <td colSpan={4} className="px-4 py-3 text-sm font-bold text-gray-900">
+                    <td colSpan={5} className="px-4 py-3 text-sm font-bold text-gray-900">
                       TOTALES
                     </td>
                     <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">

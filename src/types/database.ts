@@ -204,6 +204,17 @@ export const TIPOS_LIQUIDACION: { codigo: TipoLiquidacion; nombre: string }[] = 
   { codigo: 'RECTIFICATIVA', nombre: 'Rectificativa' },
 ];
 
+const TIPOS_LIQUIDACION_LEGACY: Record<string, string> = {
+  LIQUIDACION_DOCENTE: 'Liquidación Mensual (legacy)',
+};
+
+export function getTipoLiquidacionNombre(codigo: string | null | undefined): string {
+  if (!codigo) return '';
+  const actual = TIPOS_LIQUIDACION.find(t => t.codigo === codigo);
+  if (actual) return actual.nombre;
+  return TIPOS_LIQUIDACION_LEGACY[codigo] || codigo;
+}
+
 export const TIPOS_PLANTA: { codigo: TipoPlanta; nombre: string }[] = [
   { codigo: 'TITULAR', nombre: 'Planta Titular' },
   { codigo: 'SUPLENTES', nombre: 'Suplentes' },

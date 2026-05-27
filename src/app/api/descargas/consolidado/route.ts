@@ -198,7 +198,6 @@ export async function GET(request: NextRequest) {
       { header: 'Sindicato', key: 'sindicato', width: 12 },
       { header: 'Otros Desc.', key: 'otros_descuentos', width: 12 },
       { header: 'Total Deduc.', key: 'total_deducciones', width: 15 },
-      { header: 'Sueldo Bruto', key: 'sueldo_bruto', width: 15 },
       { header: 'Sueldo Neto', key: 'sueldo_neto', width: 15 },
     ];
 
@@ -219,7 +218,7 @@ export async function GET(request: NextRequest) {
         periodo: formatPeriodo(pres?.periodo || ''),
         tipo: pres?.tipo_liquidacion || '',
         legajo: liq.legajo,
-        apellido_nombres: liq.apellido_nombres || `${liq.apellido || ''} ${liq.nombres || ''}`.trim(),
+        apellido_nombres: `${liq.apellido || ''} ${liq.nombres || ''}`.trim(),
         cuil: liq.cuil,
         cargo: liq.cargo,
         horas: liq.horas,
@@ -236,7 +235,6 @@ export async function GET(request: NextRequest) {
         sindicato: liq.sindicato,
         otros_descuentos: liq.otros_descuentos,
         total_deducciones: liq.total_deducciones,
-        sueldo_bruto: liq.sueldo_bruto,
         sueldo_neto: liq.sueldo_neto,
       });
     });
@@ -245,7 +243,7 @@ export async function GET(request: NextRequest) {
     const columnasMoneda = ['sueldo_basico', 'antiguedad_monto', 'presentismo', 'zona',
       'item_arraigo', 'otros_adicionales', 'total_remunerativo', 'jubilacion',
       'obra_social', 'sindicato', 'otros_descuentos', 'total_deducciones',
-      'sueldo_bruto', 'sueldo_neto'];
+      'sueldo_neto'];
     columnasMoneda.forEach(col => {
       const column = hojaDetalle.getColumn(col);
       if (column) column.numFmt = '"$"#,##0.00';
@@ -298,7 +296,7 @@ export async function GET(request: NextRequest) {
       const totales = totalesPorColegio.get(colegioKey);
       totales.docentes++;
       totales.horas += liq.horas || 0;
-      totales.bruto += liq.sueldo_bruto || 0;
+      totales.bruto += liq.total_remunerativo || 0;
       totales.neto += liq.sueldo_neto || 0;
       totales.arraigo += liq.item_arraigo || 0;
     });

@@ -342,6 +342,24 @@ export async function validarDatos(buffer: ArrayBuffer | Buffer): Promise<Result
         filasConError.add(filaNum);
       }
     }
+
+    // Validar Horas (no puede ser negativo)
+    const horasCol = indiceColumnas['horas'];
+    if (horasCol) {
+      const horasValor = row.getCell(horasCol).value;
+      if (horasValor != null && horasValor !== '') {
+        const horasNum = Number(horasValor);
+        if (!isNaN(horasNum) && horasNum < 0) {
+          errores.push({
+            fila: filaNum,
+            columna: 'Horas',
+            valor: String(horasValor),
+            mensaje: 'Las horas no pueden ser negativas'
+          });
+          filasConError.add(filaNum);
+        }
+      }
+    }
   });
 
   return {

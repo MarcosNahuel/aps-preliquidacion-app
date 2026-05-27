@@ -40,6 +40,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validar formato y rango del periodo (no permitir meses futuros)
+    if (!/^\d{6}$/.test(periodo)) {
+      return NextResponse.json(
+        { error: 'Formato de periodo invalido. Use YYYYMM' },
+        { status: 400 }
+      );
+    }
+    const periodoYear = parseInt(periodo.substring(0, 4), 10);
+    const periodoMonth = parseInt(periodo.substring(4, 6), 10);
+    if (periodoMonth < 1 || periodoMonth > 12) {
+      return NextResponse.json(
+        { error: 'Mes invalido en el periodo' },
+        { status: 400 }
+      );
+    }
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+    if (periodoYear > currentYear || (periodoYear === currentYear && periodoMonth > currentMonth)) {
+      return NextResponse.json(
+        { error: 'No se pueden cargar presentaciones de meses futuros' },
+        { status: 400 }
+      );
+    }
+
     // Usar el colegio del usuario si es rol COLEGIO, o el proporcionado si es AUDITOR
     const colegioId = userData.rol === 'COLEGIO' ? userData.id_colegio : idColegio;
 

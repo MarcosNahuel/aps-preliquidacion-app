@@ -55,11 +55,11 @@ export async function PUT(
     // Campos editables (solo datos basicos y montos)
     const camposEditables = [
       'legajo',
-      'apellido_nombres',
+      'apellido',
+      'nombres',
       'cuil',
       'cargo',
       'horas',
-      'sueldo_bruto',
       'sueldo_neto',
       'item_arraigo',
       'antiguedad_monto',
@@ -102,11 +102,11 @@ export async function PUT(
     // Recalcular totales de la presentacion
     const { data: liquidaciones } = await supabase
       .from('aps_liquidaciones_privadas')
-      .select('sueldo_bruto, sueldo_neto, item_arraigo')
+      .select('total_remunerativo, sueldo_neto, item_arraigo')
       .eq('id_presentacion', liquidacion.id_presentacion);
 
     if (liquidaciones) {
-      const costoTotal = liquidaciones.reduce((sum, l) => sum + (l.sueldo_bruto || 0), 0);
+      const costoTotal = liquidaciones.reduce((sum, l) => sum + (l.total_remunerativo || 0), 0);
 
       await supabase
         .from('aps_presentaciones')
@@ -191,10 +191,10 @@ export async function DELETE(
     // Recalcular totales de la presentacion
     const { data: liquidacionesRestantes } = await supabase
       .from('aps_liquidaciones_privadas')
-      .select('sueldo_bruto')
+      .select('total_remunerativo')
       .eq('id_presentacion', idPresentacion);
 
-    const costoTotal = liquidacionesRestantes?.reduce((sum, l) => sum + (l.sueldo_bruto || 0), 0) || 0;
+    const costoTotal = liquidacionesRestantes?.reduce((sum, l) => sum + (l.total_remunerativo || 0), 0) || 0;
     const totalFilas = liquidacionesRestantes?.length || 0;
 
     await supabase

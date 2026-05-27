@@ -143,11 +143,11 @@ export default function FileUpload({ idColegio, onSuccess }: FileUploadProps) {
     }
   };
 
-  // Generar periodos disponibles (ultimos 12 meses + 6 meses futuros)
+  // Generar periodos disponibles: mes actual + 12 meses atras (no se permiten meses futuros)
   const generarPeriodos = () => {
     const periodos = [];
     const now = new Date();
-    for (let i = -6; i <= 12; i++) {
+    for (let i = 0; i <= 12; i++) {
       const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const periodo = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}`;
       const nombre = date.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' });

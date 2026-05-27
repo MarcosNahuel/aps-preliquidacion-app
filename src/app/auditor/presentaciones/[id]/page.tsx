@@ -10,7 +10,7 @@ import {
   Calendar, AlertCircle, Building2
 } from 'lucide-react';
 import type { Usuario, Presentacion } from '@/types/database';
-import { ESTADOS_PRESENTACION, TIPOS_LIQUIDACION, TIPOS_PLANTA, NIVELES } from '@/types/database';
+import { ESTADOS_PRESENTACION, TIPOS_PLANTA, NIVELES, getTipoLiquidacionNombre } from '@/types/database';
 
 // Helper para obtener nombre del tipo de planta
 const getTipoPlantaNombre = (codigo: string | null | undefined): string => {
@@ -116,10 +116,7 @@ export default function AuditorPresentacionDetailPage() {
     return config || { nombre: estado, color: 'bg-gray-100 text-gray-800' };
   };
 
-  const getTipoNombre = (tipo: string) => {
-    const config = TIPOS_LIQUIDACION.find(t => t.codigo === tipo);
-    return config?.nombre || tipo;
-  };
+  const getTipoNombre = (tipo: string) => getTipoLiquidacionNombre(tipo);
 
   const getTipoPlantaNombre = (tipo: string) => {
     const config = TIPOS_PLANTA.find(t => t.codigo === tipo);
@@ -132,6 +129,13 @@ export default function AuditorPresentacionDetailPage() {
       style: 'currency',
       currency: 'ARS'
     }).format(monto);
+  };
+
+  const formatCuil = (cuil: string | null | undefined): string => {
+    if (!cuil) return '-';
+    const digits = String(cuil).replace(/\D/g, '');
+    if (digits.length === 11) return `${digits.slice(0, 2)}-${digits.slice(2, 10)}-${digits.slice(10)}`;
+    return cuil;
   };
 
   if (loading) {
@@ -236,7 +240,7 @@ export default function AuditorPresentacionDetailPage() {
             <div>
               <p className="text-sm text-gray-600">Costo Total</p>
               <p className="text-xl font-bold text-gray-900">
-                {formatMonto(totalBruto)}
+                {formatMonto(presentacion.costo_total_presentado || totalBruto)}
               </p>
             </div>
           </div>
@@ -382,7 +386,7 @@ export default function AuditorPresentacionDetailPage() {
                         {liq.nombres || '-'}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-600">
-                        {liq.cuil || '-'}
+                        {formatCuil(liq.cuil)}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-600">
                         {liq.cargo || '-'}

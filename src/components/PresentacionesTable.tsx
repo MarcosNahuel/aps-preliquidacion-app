@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Eye, Lock, Trash2, Download, AlertCircle, Loader2, AlertTriangle } from 'lucide-react';
 import type { Presentacion } from '@/types/database';
-import { ESTADOS_PRESENTACION, TIPOS_LIQUIDACION, NIVELES, TIPOS_PLANTA } from '@/types/database';
+import { ESTADOS_PRESENTACION, NIVELES, TIPOS_PLANTA, getTipoLiquidacionNombre } from '@/types/database';
 
 // Helper para obtener nombre completo del nivel
 const getNivelNombre = (codigo: string | null | undefined): string => {
@@ -47,10 +47,7 @@ export default function PresentacionesTable({
     return config || { nombre: estado, color: 'bg-gray-100 text-gray-800' };
   };
 
-  const getTipoNombre = (tipo: string) => {
-    const config = TIPOS_LIQUIDACION.find(t => t.codigo === tipo);
-    return config?.nombre || tipo;
-  };
+  const getTipoNombre = (tipo: string) => getTipoLiquidacionNombre(tipo);
 
   const handleCerrar = async (id: string) => {
     if (!confirm('Esta seguro que desea cerrar esta presentacion? Esta accion no se puede deshacer.')) {
