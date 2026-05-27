@@ -508,7 +508,7 @@
     <h3>Pasos para Cargar una Preliquidacion</h3>
 
     <h4>Paso 1: Seleccionar Periodo</h4>
-    <p>Seleccione el periodo de liquidacion del desplegable. Los periodos disponibles van desde el mes actual hasta 18 meses hacia atras.</p>
+    <p>Seleccione el periodo de liquidacion del desplegable. Los periodos disponibles van desde el <strong>mes actual hasta 12 meses hacia atras</strong>. No se pueden cargar presentaciones de meses futuros.</p>
 
     <h4>Paso 2: Seleccionar Tipo de Liquidacion</h4>
     <p>Seleccione el tipo de liquidacion correspondiente:</p>
@@ -585,48 +585,46 @@
     <h4>Paso 5: Preparar el Archivo Excel</h4>
     <p>Complete la plantilla con los datos de su liquidacion siguiendo estas reglas:</p>
 
+    <div class="info-box">
+        <strong>IMPORTANTE:</strong> Use siempre la plantilla descargada del sistema. Contiene la estructura exacta de columnas que el validador espera.
+    </div>
+
+    <p><strong>Columnas principales (las identificatorias son obligatorias):</strong></p>
+
     <table>
         <tr>
             <th>Columna</th>
+            <th>Tipo</th>
             <th>Descripcion</th>
-            <th>Formato</th>
         </tr>
-        <tr>
-            <td>LEGAJO</td>
-            <td>Numero de legajo del empleado</td>
-            <td>Numerico</td>
-        </tr>
-        <tr>
-            <td>CUIL</td>
-            <td>CUIL del empleado</td>
-            <td>11 digitos sin guiones</td>
-        </tr>
-        <tr>
-            <td>CARGO</td>
-            <td>Descripcion del cargo</td>
-            <td>Texto</td>
-        </tr>
-        <tr>
-            <td>HORAS</td>
-            <td>Cantidad de horas</td>
-            <td>Numerico</td>
-        </tr>
-        <tr>
-            <td>BRUTO</td>
-            <td>Sueldo bruto</td>
-            <td>Numerico decimal</td>
-        </tr>
-        <tr>
-            <td>NETO</td>
-            <td>Sueldo neto</td>
-            <td>Numerico decimal</td>
-        </tr>
-        <tr>
-            <td>ARRAIGO</td>
-            <td>Monto de arraigo</td>
-            <td>Numerico decimal</td>
-        </tr>
+        <tr><td>COLEGIO</td><td>Texto</td><td>Codigo del colegio (ej: 001, 027)</td></tr>
+        <tr><td>NIVEL</td><td>Texto</td><td>Nivel educativo (P, PE, PP, PS, PT)</td></tr>
+        <tr><td>LEGAJO</td><td>Numerico</td><td>Numero de legajo del empleado</td></tr>
+        <tr><td>APELLIDO</td><td>Texto</td><td>Apellido del empleado</td></tr>
+        <tr><td>NOMBRES</td><td>Texto</td><td>Nombres del empleado</td></tr>
+        <tr><td>DNI</td><td>Texto</td><td>DNI sin puntos (7 u 8 digitos)</td></tr>
+        <tr><td>CUIL</td><td>Texto</td><td>CUIL de 11 digitos (con o sin guiones)</td></tr>
+        <tr><td>CARGO</td><td>Texto</td><td>Descripcion del cargo</td></tr>
+        <tr><td>HORAS</td><td>Numerico</td><td>Cantidad de horas (no puede ser negativo)</td></tr>
+        <tr><td>SUELDO BASICO</td><td>Numerico decimal</td><td>Monto base</td></tr>
+        <tr><td>ANTIGUEDAD MONTO</td><td>Numerico decimal</td><td>Monto por antiguedad</td></tr>
+        <tr><td>PRESENTISMO</td><td>Numerico decimal</td><td>Bonificacion presentismo</td></tr>
+        <tr><td>ZONA</td><td>Numerico decimal</td><td>Bonificacion por zona</td></tr>
+        <tr><td>ITEM ARRAIGO</td><td>Numerico decimal</td><td>Monto de arraigo</td></tr>
+        <tr><td>OTROS ADICIONALES</td><td>Numerico decimal</td><td>Otros conceptos remunerativos</td></tr>
+        <tr><td>TOTAL REMUNERATIVO</td><td>Numerico decimal</td><td>Suma de conceptos (costo total)</td></tr>
+        <tr><td>JUBILACION</td><td>Numerico decimal</td><td>Aporte jubilatorio</td></tr>
+        <tr><td>OBRA SOCIAL</td><td>Numerico decimal</td><td>Aporte obra social</td></tr>
+        <tr><td>SUELDO NETO</td><td>Numerico decimal</td><td>Monto a cobrar</td></tr>
     </table>
+
+    <p><strong>Validaciones automaticas:</strong></p>
+    <ul>
+        <li>CUIL debe tener exactamente 11 digitos y digito verificador valido (modulo 11)</li>
+        <li>DNI debe tener 7 u 8 digitos</li>
+        <li>Horas no pueden ser negativas</li>
+        <li>Codigo de colegio y nivel deben existir en el sistema</li>
+    </ul>
 
     <h4>Paso 6: Subir el Archivo</h4>
     <div class="steps">
@@ -690,11 +688,12 @@
     <p>Tabla con el detalle de cada empleado:</p>
     <ul>
         <li><strong>LEGAJO:</strong> Numero de legajo</li>
-        <li><strong>NOMBRE:</strong> Nombre del empleado (si esta disponible)</li>
-        <li><strong>CUIL:</strong> Numero de CUIL</li>
+        <li><strong>APELLIDO:</strong> Apellido del empleado</li>
+        <li><strong>NOMBRES:</strong> Nombres del empleado</li>
+        <li><strong>CUIL:</strong> Numero de CUIL (mostrado con formato XX-XXXXXXXX-X)</li>
         <li><strong>CARGO:</strong> Descripcion del cargo</li>
         <li><strong>HORAS:</strong> Cantidad de horas</li>
-        <li><strong>BRUTO:</strong> Sueldo bruto</li>
+        <li><strong>BRUTO:</strong> Sueldo bruto (total remunerativo)</li>
         <li><strong>NETO:</strong> Sueldo neto</li>
         <li><strong>ARRAIGO:</strong> Monto de arraigo</li>
     </ul>
@@ -949,17 +948,17 @@
         </tr>
         <tr>
             <td><strong>Frontend</strong></td>
-            <td>Next.js 14 + React 18</td>
-            <td>Framework web moderno con SSR</td>
+            <td>Next.js 16 + React 19</td>
+            <td>Framework web moderno con App Router</td>
         </tr>
         <tr>
             <td><strong>Estilos</strong></td>
-            <td>Tailwind CSS 3</td>
+            <td>Tailwind CSS 3.4</td>
             <td>Framework CSS utilitario</td>
         </tr>
         <tr>
             <td><strong>Lenguaje</strong></td>
-            <td>TypeScript 5</td>
+            <td>TypeScript 5.6</td>
             <td>Tipado estatico para mayor robustez</td>
         </tr>
         <tr>
@@ -984,7 +983,7 @@
         </tr>
         <tr>
             <td><strong>Procesamiento Excel</strong></td>
-            <td>ExcelJS</td>
+            <td>ExcelJS 4.4</td>
             <td>Lectura y generacion de archivos Excel</td>
         </tr>
     </table>
@@ -1001,7 +1000,7 @@
 │   │  (Browser)  │     │  (Hosting)  │     │ (DB + Auth) │  │
 │   └─────────────┘     └─────────────┘     └─────────────┘  │
 │                                                              │
-│   URL Demo: https://aps-preliquidacion-app.vercel.app       │
+│   URL Demo: https://preliquidaciones-dge-app.vercel.app     │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
         </pre>
@@ -1081,10 +1080,10 @@
         <p>Direccion General de Escuelas - Educacion Privada<br>
         Email: soporte@dge.mendoza.gov.ar</p>
         <br>
-        <p><em>Documento generado automaticamente - Version 2.0</em><br>
+        <p><em>Documento generado automaticamente - Version 2.1</em><br>
         <em>PRELIQ-DGE - Sistema de Preliquidaciones Colegios Privados</em><br>
         <em>Direccion General de Escuelas - Mendoza</em><br>
-        <em>Ambiente de Demostracion - Diciembre 2025</em></p>
+        <em>Ambiente de Demostracion - Mayo 2026</em></p>
         <br>
         <p style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
             <strong>Desarrollado por:</strong><br>

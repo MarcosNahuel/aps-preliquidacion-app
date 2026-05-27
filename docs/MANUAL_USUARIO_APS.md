@@ -187,29 +187,35 @@ Una vez iniciada la sesion como usuario de colegio, accede al dashboard principa
 ### Pasos para Cargar una Preliquidacion
 
 #### Paso 1: Seleccionar Periodo
-Seleccione el periodo de liquidacion del desplegable. Los periodos disponibles van desde el mes actual hasta 18 meses hacia atras.
+Seleccione el periodo de liquidacion del desplegable. Los periodos disponibles van desde el **mes actual hasta 12 meses hacia atras**. No se pueden cargar presentaciones de meses futuros.
 
 **Formato de periodos disponibles:**
-- Diciembre de 2025
-- Noviembre de 2025
-- Octubre de 2025
-- (etc.)
+- Mayo de 2026 (mes actual)
+- Abril de 2026
+- Marzo de 2026
+- (etc., hasta 12 meses atras)
 
 #### Paso 2: Seleccionar Tipo de Liquidacion
 Seleccione el tipo de liquidacion correspondiente:
 
-| Tipo | Descripcion |
-|------|-------------|
-| Liquidacion Mensual | Liquidacion regular del mes |
-| Aguinaldo 1er Semestre | SAC correspondiente al primer semestre |
-| Aguinaldo 2do Semestre | SAC correspondiente al segundo semestre |
-| Suplementaria | Liquidacion adicional |
-| Rectificativa | Correccion de una liquidacion anterior |
-| Liquidacion Docente | Especifica para personal docente |
-| Suplencias - Licencias sin Goce | Para personal en suplencia por licencias |
-| Suplencias - Enfermedad/Maternidad | Para suplencias por enfermedad o maternidad |
-| Maestranza SUTE | Personal de maestranza afiliado a SUTE |
-| Maestranza SOEME | Personal de maestranza afiliado a SOEME |
+| Tipo | Codigo | Descripcion |
+|------|--------|-------------|
+| Liquidacion Mensual | MENSUAL | Liquidacion regular del mes |
+| Aguinaldo 1er Semestre (1er SAC) | AG01 | SAC correspondiente al primer semestre |
+| Aguinaldo 2do Semestre (2do SAC) | AG02 | SAC correspondiente al segundo semestre |
+| Suplementaria | SUPLEMENTARIA | Liquidacion adicional |
+| Rectificativa | RECTIFICATIVA | Correccion de una liquidacion anterior |
+
+Tambien debe seleccionar el **Tipo de Planta**:
+
+| Tipo de Planta | Codigo |
+|----------------|--------|
+| Planta Titular | TITULAR |
+| Suplentes | SUPLENTES |
+| Maestranza | MAESTRANZA |
+| Licencia | LICENCIA |
+
+> **Nota sobre datos historicos:** Presentaciones cargadas en versiones anteriores pueden mostrar el tipo "Liquidacion Mensual (legacy)" - corresponden al antiguo codigo `LIQUIDACION_DOCENTE` y se tratan como liquidaciones mensuales.
 
 #### Paso 3: Descargar Plantilla
 Antes de cargar su archivo, descargue la plantilla oficial haciendo clic en **"Descargar Plantilla"**.
@@ -220,18 +226,39 @@ La plantilla contiene:
 - Ejemplos de datos validos
 
 #### Paso 4: Preparar el Archivo Excel
-Complete la plantilla con los datos de su liquidacion siguiendo estas reglas:
+Complete la plantilla con los datos de su liquidacion siguiendo estas reglas.
 
-**Columnas requeridas:**
-| Columna | Descripcion | Formato |
-|---------|-------------|---------|
-| LEGAJO | Numero de legajo del empleado | Numerico |
-| CUIL | CUIL del empleado | 11 digitos sin guiones |
-| CARGO | Descripcion del cargo | Texto |
-| HORAS | Cantidad de horas | Numerico |
-| BRUTO | Sueldo bruto | Numerico decimal |
-| NETO | Sueldo neto | Numerico decimal |
-| ARRAIGO | Monto de arraigo | Numerico decimal |
+> **IMPORTANTE:** Use siempre la plantilla descargada del sistema. Contiene la estructura exacta de columnas que el validador espera.
+
+**Columnas principales (las identificatorias son obligatorias):**
+
+| Columna | Tipo | Descripcion |
+|---------|------|-------------|
+| COLEGIO | Texto | Codigo del colegio (ej: 001, 027) |
+| NIVEL | Texto | Nivel educativo (P, PE, PP, PS, PT) |
+| LEGAJO | Numerico | Numero de legajo del empleado |
+| APELLIDO | Texto | Apellido del empleado |
+| NOMBRES | Texto | Nombres del empleado |
+| DNI | Texto | DNI sin puntos (7 u 8 digitos) |
+| CUIL | Texto | CUIL de 11 digitos (con o sin guiones) |
+| CARGO | Texto | Descripcion del cargo |
+| HORAS | Numerico | Cantidad de horas (no puede ser negativo) |
+| SUELDO BASICO | Numerico decimal | Monto base |
+| ANTIGUEDAD MONTO | Numerico decimal | Monto por antiguedad |
+| PRESENTISMO | Numerico decimal | Bonificacion presentismo |
+| ZONA | Numerico decimal | Bonificacion por zona |
+| ITEM ARRAIGO | Numerico decimal | Monto de arraigo |
+| OTROS ADICIONALES | Numerico decimal | Otros conceptos remunerativos |
+| TOTAL REMUNERATIVO | Numerico decimal | Suma de conceptos (costo total) |
+| JUBILACION | Numerico decimal | Aporte jubilatorio |
+| OBRA SOCIAL | Numerico decimal | Aporte obra social |
+| SUELDO NETO | Numerico decimal | Monto a cobrar |
+
+**Validaciones automaticas:**
+- CUIL debe tener exactamente 11 digitos y digito verificador valido (modulo 11)
+- DNI debe tener 7 u 8 digitos
+- Horas no pueden ser negativas
+- Codigo de colegio y nivel deben existir en el sistema
 
 #### Paso 5: Subir el Archivo
 1. Arrastre el archivo Excel al area indicada, o haga clic para seleccionarlo
@@ -314,11 +341,12 @@ Haga clic en **"Ver detalle"** para acceder a la informacion completa de una pre
 #### Detalle de Liquidaciones
 Tabla con el detalle de cada empleado:
 - **LEGAJO**: Numero de legajo
-- **NOMBRE**: Nombre del empleado (si esta disponible)
-- **CUIL**: Numero de CUIL
+- **APELLIDO**: Apellido del empleado
+- **NOMBRES**: Nombres del empleado
+- **CUIL**: Numero de CUIL (mostrado con formato XX-XXXXXXXX-X)
 - **CARGO**: Descripcion del cargo
 - **HORAS**: Cantidad de horas
-- **BRUTO**: Sueldo bruto
+- **BRUTO**: Sueldo bruto (total remunerativo)
 - **NETO**: Sueldo neto
 - **ARRAIGO**: Monto de arraigo
 
@@ -492,14 +520,14 @@ Este sistema se encuentra actualmente en **ambiente de demostracion** con fines 
 
 | Componente | Tecnologia | Proposito |
 |------------|------------|-----------|
-| **Frontend** | Next.js 14 + React 18 | Framework web moderno con SSR |
-| **Estilos** | Tailwind CSS 3 | Framework CSS utilitario |
-| **Lenguaje** | TypeScript 5 | Tipado estatico para mayor robustez |
+| **Frontend** | Next.js 16 + React 19 | Framework web moderno con App Router |
+| **Estilos** | Tailwind CSS 3.4 | Framework CSS utilitario |
+| **Lenguaje** | TypeScript 5.6 | Tipado estatico para mayor robustez |
 | **Base de Datos** | PostgreSQL (Supabase) | Base de datos relacional en la nube |
 | **Autenticacion** | Supabase Auth | Sistema de autenticacion JWT |
 | **Almacenamiento** | Supabase Storage | Almacenamiento de archivos Excel |
-| **Hosting** | Vercel | Plataforma de despliegue serverless |
-| **Procesamiento Excel** | ExcelJS | Lectura y generacion de archivos Excel |
+| **Hosting** | Vercel (Fluid Compute) | Plataforma de despliegue serverless |
+| **Procesamiento Excel** | ExcelJS 4.4 | Lectura y generacion de archivos Excel |
 
 ### Infraestructura de Demostracion
 
@@ -513,7 +541,7 @@ Este sistema se encuentra actualmente en **ambiente de demostracion** con fines 
 │   │  (Browser)  │     │  (Hosting)  │     │ (DB + Auth) │  │
 │   └─────────────┘     └─────────────┘     └─────────────┘  │
 │                                                              │
-│   URL Demo: https://aps-preliquidacion-app.vercel.app       │
+│   URL Demo: https://preliquidaciones-dge-app.vercel.app     │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -570,7 +598,7 @@ Para consultas o problemas tecnicos, contacte a:
 
 ---
 
-*Documento generado automaticamente - Version 1.0*
+*Documento generado automaticamente - Version 1.1*
 *PRELIQ-DGE - Sistema de Preliquidaciones Colegios Privados*
 *Direccion General de Escuelas - Mendoza*
-*Ambiente de Demostracion - Diciembre 2024*
+*Ambiente de Demostracion - Mayo 2026*
